@@ -1,0 +1,12 @@
+body{
+	background: #D3EEDC;
+}
+
+.navbar{
+  background-color: #251F47;
+}
+
+li:active, li:hover, #button:active{
+  background-color: #7CC6FE;
+  color: #D81E5B;
+}
