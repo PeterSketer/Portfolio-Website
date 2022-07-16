@@ -1,0 +1,4595 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Peter Cory" />
+
+
+<title>Code Library</title>
+
+<script src="site_libs/header-attrs-2.14.3/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="portfolio_styles.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <!-- NOTE: add "navbar-inverse" class for an alternate navbar background -->
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Peter's Portfolio</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="code_library.html">Code Library</a></li>
+        <li><a href="projects.html">Projects</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="https://github.com">GitHub</a></li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Code Library</h1>
+<h4 class="author">Peter Cory</h4>
+
+</div>
+
+
+<div id="section" class="section level2 tabset tabset-pills">
+<h2 class="tabset tabset-pills"></h2>
+<p>This is my code library. A showcase and repository of all the code
+pieces I have written since I started my journey as a computer
+scientist. Not all of the courses are represented here because they
+didn’t have any significant coding sections.</p>
+<p><em>Please be aware I have written most of this code as answers to
+assessments at the University of Auckland, if you are here looking for
+answers to similar questions please don’t copy them, it really won’t
+help you. However, everyone is welcome to read the code here to help
+them understand a certain concept but plagiarism will not be tolerated -
+either by myself or any university.</em></p>
+<div id="random-pieces-of-code" class="section level3">
+<h3>Random pieces of code</h3>
+<p>These, as the title suggests, are just random pieces of code I have
+written either as helpers or just because they are useful</p>
+<pre class="python"><code># This adds the ASCII numbers of a word ... probably useful for a weak encryption
+
+print(&quot;First column of First word&quot;,&quot;\n&quot;)
+for a in range(0,26):
+    for b in range(0,26):
+        num = (19*a + 4*b)
+        mod = num % 26
+        if mod == 17:
+            print(&quot;Value of a&quot;,a,&quot;Value of b&quot;,b,&quot;Sum of a,b&quot;,num,&quot;Mod of a,b&quot;,mod)
+print()
+print(&quot;Second column of First word&quot;,&quot;\n&quot;)
+for a in range(0,26):
+    for b in range(0,26):
+        num = (19*a + 4*b)
+        mod = num % 26
+        if mod == 8:
+            print(&quot;Value of a&quot;,a,&quot;Value of b&quot;,b,&quot;Sum of a,b&quot;,num,&quot;Mod of a,b&quot;,mod)
+print()
+print(&quot;First column of Second word&quot;,&quot;\n&quot;)
+for a in range(0,26):
+    for b in range(0,26):
+        num = (8*a + 13*b)
+        mod = num % 26
+        if mod == 14:
+            print(&quot;Value of a&quot;,a,&quot;Value of b&quot;,b,&quot;Sum of a,b&quot;,num,&quot;Mod of a,b&quot;,mod)
+print()
+print(&quot;Second column of Second word&quot;,&quot;\n&quot;)
+for a in range(0,26):
+    for b in range(0,26):
+        num = (8*a + 13*b)
+        mod = num % 26
+        if mod == 23:
+            print(&quot;Value of a&quot;,a,&quot;Value of b&quot;,b,&quot;Sum of a,b&quot;,num,&quot;Mod of a,b&quot;,mod)
+print()
+x = 26
+print(&quot;Word one&quot;)
+mod1 = (19*5 + 4*0)%x
+mod2 = (19*24 + 4*5)%x
+print(mod1,mod2)
+print()
+print(&quot;Word two&quot;)
+mod3 = (8*5 + 13*0)%x
+mod4 = (8*24 + 13*5)%x
+print(mod3,mod4)
+
+#-------------#
+
+# Here we have a Fibonacci sequence, although recursive it seems to be used a lot
+
+def fib(n):
+
+    if n==0:
+        return 0
+    elif n==1:
+        return 1
+    else:
+        return fib(n-1) + fib(n-2) + 1
+
+
+print(fib(-1))
+
+#-------------#
+
+# This is something I sometimes forget ... how to reverse a string or list
+
+def reverse_substring(text, start):
+  
+    return text[0:start] + text[-1:start-1:-1]</code></pre>
+</div>
+<div id="computer-science-101-principles-of-programming"
+class="section level3">
+<h3>Computer Science 101: Principles of Programming</h3>
+<p>So I think the best place to start is at the beginning. The following
+code is from COMPSCI 101. (N.B. It may not yet be complete but I will
+update it as I find more of my code chunks)</p>
+<pre class="python fold-show"><code>&quot;&quot;&quot;
+Lab 01 Ex 1.2
+
+Date Written: 12 March, 2019
+Author: Peter Cory
+
+&quot;&quot;&quot;
+
+import math
+
+# Part (a)
+total_seconds = 550
+seconds_in_minutes = 60
+whole_minutes = total_seconds // seconds_in_minutes
+remaining_seconds = total_seconds % seconds_in_minutes
+
+print(total_seconds, &quot;seconds is equivalent to&quot;, whole_minutes, &quot;minutes and&quot;, remaining_seconds, &quot;seconds.&quot;)
+print()
+# Part (b)
+number_of_inches = 256
+centimeters_in_1_inch = 2.54
+conversion_of_centimeters_to_inches = round(centimeters_in_1_inch * number_of_inches,1)
+
+print(number_of_inches, &quot;inches is equivelant to&quot;, conversion_of_centimeters_to_inches, &quot;centimeters.&quot;)
+print()
+# Part (c)
+radius = 9
+sphere_volume = round(4 / 3 * math.pi * radius**3,2)
+
+print(&quot;Volume of sphere with a radius of&quot;, radius, &quot;cm is&quot;, sphere_volume, &quot;cubic cm.&quot;)
+print()
+# Part (d)
+current_year = 2019
+year_purchased = 1985
+original_price = 85000
+rate = 8 / 100
+number_of_years = current_year - year_purchased
+value_of_house = round(original_price * (1 + rate)**number_of_years)
+print(&quot;House is now worth approximately &quot;, &quot;$&quot;, value_of_house,&quot;.&quot;, sep=&quot;&quot;)</code></pre>
+<pre class="python"><code>&quot;&quot;&quot;
+Exercise 2.1
+Date: 19 March, 2019
+Author: Peter Cory
+&quot;&quot;&quot;
+
+import random
+
+random_number1 = random.randrange(-20,21,2)
+random_number2 = random.randrange(-20,21,2)
+random_number3 = random.randrange(-20,21,2)
+smallest_number = min(random_number1,random_number2,random_number3)
+largest_number = max(random_number1,random_number2,random_number3)
+middle_number = (random_number1 + random_number2 + random_number3) - (smallest_number + largest_number)
+
+print(random_number1,random_number2,random_number3)
+print(&quot;Random numbers is ascending order:&quot;,smallest_number, middle_number, largest_number)
+
+&quot;&quot;&quot;
+Exercise 2.2
+Date: 19 March, 2019.
+Author: Peter Cory 
+&quot;&quot;&quot;
+
+prompt = &quot;Enter your name in lowercase: &quot;
+
+user_name = input(prompt)
+
+first_letter = user_name[0].upper()
+full_name = first_letter + user_name[1:]
+print(full_name)
+print(&quot;~&quot;*len(user_name))
+
+&quot;&quot;&quot;
+Exercise 2.3
+Date: 19 March, 2019
+Author: Peter Cory
+&quot;&quot;&quot;
+
+user_birthday = input(&quot;Enter your date of birth: &quot;)
+first_backslash = user_birthday.find(&quot;/&quot;)
+last_backslash = user_birthday.rfind(&quot;/&quot;)
+day = user_birthday[:first_backslash]
+month = user_birthday[first_backslash + 1:last_backslash]
+year = user_birthday[last_backslash + 1:]
+print(&quot;Day:&quot;,day)
+print(&quot;Month:&quot;,month)
+print(&quot;Year:&quot;,year)
+
+&quot;&quot;&quot;
+Exercise 2.4
+Date: 19 March, 2019
+Author: Peter Cory
+&quot;&quot;&quot;
+number_of_people = input(&quot;How many people in the group? &quot;)
+cab_fare_cost = input(&quot;How much is the cab fare? &quot;)
+cost_per_person = float(cab_fare_cost)/int(number_of_people)
+print()
+print(&quot;Each person pays $&quot;,round(cost_per_person),&quot;.&quot;,sep = &quot;&quot;)</code></pre>
+<pre class="python"><code>&quot;&quot;&quot;
+Lab 3 Ex 1
+Date Written: 26 March, 2019.
+Author: Peter Cory
+&quot;&quot;&quot;
+
+def main():
+    weight = get_weight_from_user()
+    height = get_height_from_user()
+    bmi = calculate_bmi(weight, height)
+    print_bmi(bmi)
+
+def get_weight_from_user():
+    return input(&quot;Enter your weight in kilograms: &quot;)
+    
+
+def get_height_from_user():
+    return input(&quot;Enter your height in metres: &quot;)
+
+def calculate_bmi(weight, height):
+    bmi = round(float(weight) / float(height) ** 2,1)
+    return bmi
+
+def print_bmi(bmi):
+    print(&quot;Your bmi is &quot;+str(bmi)+&quot;.&quot;)
+
+main()
+
+&quot;&quot;&quot;
+Lab 3 Ex 2
+Date Written: 26 March, 2019
+Author: Peter Cory
+&quot;&quot;&quot;
+
+def main():
+    word = &quot;Aroha&quot;
+    hidden_word = hide_middle_of_word(word) 
+    print_hidden_word(word, hidden_word)
+    
+    word = &quot;Rorohiko&quot;
+    hidden_word = hide_middle_of_word(word)
+    print_hidden_word(word, hidden_word)
+
+    word = &quot;Si&quot;
+    hidden_word = hide_middle_of_word(word)
+    print_hidden_word(word, hidden_word)
+
+def hide_middle_of_word(word):
+    word_length = len(word)
+    first_letter = word[0]
+    last_letter = word[word_length-1]
+    hidden_word = first_letter + &quot;-&quot; * (word_length-2) + last_letter
+    return hidden_word
+    
+def print_hidden_word(original_word, hidden_word):
+    print(original_word + &quot; is now &quot; + hidden_word)  
+    
+main()
+
+&quot;&quot;&quot;
+Lab 3 Ex 3
+This program calculates the tax and net income of the user.
+Date: 26 March 2019
+Author: Peter Cory
+&quot;&quot;&quot;
+
+def main():
+    income = get_gross_income_from_user()
+    tax = calculate_tax(income)
+    show_tax_and_net_income(income, tax)
+
+def get_gross_income_from_user():
+    salary = float(input(&quot;Enter your gross income: &quot;))
+    return salary                   
+          
+def calculate_tax(income):
+    lower_bracket = min(income, 14000)
+    income = max(income - 14000, 0)
+    lower_mid_bracket = min(income, 34000)
+    income = max(income - 34000, 0)
+    upper_mid_bracket = min(income, 22000)
+    income = max(income - 22000, 0)
+    upper_bracket = income
+    tax = lower_bracket * 0.105
+    tax = tax + lower_mid_bracket * 0.175
+    tax = tax + upper_mid_bracket * 0.3
+    tax = tax + upper_bracket * 0.33
+    return round(tax, 2)
+
+def show_tax_and_net_income(income, tax):
+    print(&quot;Your yearly tax is $&quot; + str(tax) + &quot;.&quot;)
+    net_income = round(income - tax, 2)
+    print(&quot;Your net income is $&quot; + str(net_income) + &quot;.&quot;)
+
+main()
+
+&quot;&quot;&quot;
+Lab 3 Ex 4
+Date Written: 26 March, 2019.
+Author: Peter Cory
+&quot;&quot;&quot;
+import math
+
+def main():
+    passengers = get_number_of_passengers()
+    buses_needed = calculate_buses_needed(passengers)
+    print_buses_needed(passengers, buses_needed)
+
+def get_number_of_passengers():
+    number_of_passengers = int(input(&quot;Enter number of passengers: &quot;))
+    return number_of_passengers
+
+def calculate_buses_needed(passengers):
+    buses = math.ceil(passengers / 50)
+    return buses
+
+def print_buses_needed(passengers, buses_needed):
+    if buses_needed == 1:
+        print(&quot;1 bus needed for&quot;, passengers, &quot;passengers.&quot;)
+    else:
+        print(buses_needed, &quot;buses needed for&quot;, passengers, &quot;passengers.&quot;)
+
+main()</code></pre>
+<pre class="python"><code>&quot;&quot;&quot;
+Lab 04 Exercise 4.1
+Checks whether a word is a palindrome.
+Date written: 02 April, 2019
+Author:  Peter Cory.
+&quot;&quot;&quot;
+
+def main():
+    word = get_word_from_user()
+    while len(word) &gt; 0:
+        print_palindrome_result(word)
+        word = get_word_from_user()
+    print(&quot;Goodbye&quot;)
+
+def get_word_from_user():
+    word = input(&quot;Enter a word (or press &lt;enter&gt; to finish)&quot;)
+    return word
+    
+def print_palindrome_result(word):
+    
+    if word == word[::-1]:
+        print(word, &quot;is a palindrome&quot;)
+    else:
+        print(word, &quot;is not a palindrome&quot;)
+    print()
+
+main()
+
+&quot;&quot;&quot;
+Lab 04 Exercise 4.2
+Prints whether a number is a prime number or not
+Date Written: 02 April, 2019
+Author:  Peter Cory.
+&quot;&quot;&quot;
+
+import math
+
+def main():
+    number = get_number_from_user()
+    while number &gt; 0:
+        is_a_prime_number = check_if_prime_number(number)
+        display_result(number, is_a_prime_number)
+        number = get_number_from_user()
+
+def get_number_from_user():
+    number = int(input(&quot;Enter a positive number (or 0 to finish): &quot;))
+    return number
+
+def display_result(number, is_a_prime_number):
+    is_a_prime_number = check_if_prime_number(number)
+    if is_a_prime_number:
+        print(number, &quot;is a prime number.&quot;)
+    else:
+        print(number, &quot;is not a prime number.&quot;)
+    print()
+
+def check_if_prime_number(number):
+    divisor = 2
+    if number &lt; 2:
+        return False
+    while divisor &lt; number:
+        if number % divisor == 0:
+            return False
+        divisor = divisor +1
+    return True
+        
+
+
+main()
+    
+&quot;&quot;&quot;
+Lab 04 Exercise 4.3
+Displays a message about the entered weight based on the bmi
+Date: April, 2019
+Author:  Insert your own name in here.
+
+&quot;&quot;&quot;
+
+def main():
+    weight = get_weight_from_user()
+    height = get_height_from_user()
+    bmi = calculate_bmi(weight, height)
+    display_bmi_message(bmi)
+
+def get_weight_from_user():
+    return float(input(&quot;Enter weight in kilograms: &quot;))
+    
+def get_height_from_user():
+    return float(input(&quot;Enter height in metres: &quot;))
+
+def calculate_bmi(weight, height):
+    bmi = round(weight / height ** 2)
+    return bmi
+
+def display_bmi_message(bmi):
+    print(&quot;BMI is &quot; + str(bmi) + &quot;.&quot;)
+    if bmi &gt; 25:
+        print(&quot;Weight may be too high.&quot;)
+    elif bmi &lt; 19:
+        print(&quot;Weight may be too low.&quot;)
+    else:
+        print(&quot;This is a healthy weight.&quot;)
+    
+main()</code></pre>
+<pre class="python"><code>&quot;&quot;&quot;
+Author: Peter Cory
+Date-written: April, 2019
+Lab 5 Exercise 5.2
+Convert the first and last word of a list of words into uppercase.
+&quot;&quot;&quot;
+
+def main():
+    process_saying(&quot;Love is blind&quot;)
+    process_saying(&quot;Better late than never&quot;)
+    process_saying(&quot;Look before you leap&quot;)
+
+def process_saying(saying):
+    words_list = saying.split()
+    print(&quot;Original list:&quot;, words_list)
+    convert_to_uppercase(words_list)
+    print(&quot;List is now:  &quot;, words_list)
+    print()
+
+def convert_to_uppercase(words_list):
+    words_list[0] = words_list[0].upper()
+    words_list[-1] = words_list[-1].upper()
+
+main()
+
+&quot;&quot;&quot;
+Author: Peter Cory
+Date-written: April, 2019
+Lab 5 Exercise 5.3
+Finds the longest word in a sentence that contains a particular letter.
+&quot;&quot;&quot;
+
+def main():
+    sentence = &quot;Absence makes the heart grow fonder&quot;
+    letter = &quot;f&quot;
+    longest_word = get_longest_word(sentence, letter)
+    print(&#39;&quot;&#39; + longest_word + &#39;&quot; is the longest word containing the letter &quot;&#39;
+          + letter + &#39;&quot;.&#39;)
+
+def get_longest_word(sentence, letter):
+
+    word_list = sentence.split()
+    largest = &quot;&quot;
+    for word in word_list:
+        if letter in word and len(word) &gt; len(largest):
+            largest = word
+        
+    return largest
+
+main()
+    
+&quot;&quot;&quot;
+Author: Insert your own name here
+Date-written: April, 2019.
+Lab 5 Exercise 5.4
+Creates a list of numbers that are less than 20
+&quot;&quot;&quot;
+
+def main():
+    numbers_list = [99, 103, 5, 19.5, 45, 2, 75.2, 0, 59, -3.56, 7, 27, 1]
+    small_numbers_list = create_list_of_small_numbers (numbers_list)
+    print(&quot;List of small numbers:&quot;, small_numbers_list)
+
+def create_list_of_small_numbers(numbers_list):
+    list_of_small_numbers = []
+    for number in numbers_list:
+        if number &lt; 20 and number not in list_of_small_numbers:
+            list_of_small_numbers += [number]
+    return list_of_small_numbers
+main()
+    
+&quot;&quot;&quot;
+Author: Peter Cory
+Date-written: April 2019.
+Lab 5 Exercise 5.5
+Produces a new list of prices by applying a discount.
+&quot;&quot;&quot;
+
+def main():
+    list_of_prices = [1.82, 52.52, 4.09, 8.38, 9.61, 190.24]
+    discounted_price_list = apply_discount(list_of_prices, 40)
+    print(&quot;Normal Prices:    &quot;, list_of_prices)
+    print(&quot;Discounted Prices:&quot;, discounted_price_list)
+
+def apply_discount(price_list, discount_rate):
+    discounted_price_list = []
+    for price in price_list:
+        discounted_price = round(price*(1-discount_rate/100),2)
+        if discounted_price not in discounted_price_list:
+            discounted_price_list += [discounted_price]
+    return discounted_price_list
+
+main()</code></pre>
+<pre class="python"><code>&quot;&quot;&quot;
+Lab 6 Ex 1
+
+Date: 7 May 2019
+This program prints the days in the weekend (Saturday and Sunday) followed
+by the first month in each season starting with &quot;March&quot;.
+
+Author: Peter Cory
+
+&quot;&quot;&quot;
+def main():
+    day_names = [&quot;Monday&quot;, &quot;Tuesday&quot;, &quot;Wednesday&quot;, &quot;Thursday&quot;,&quot;Friday&quot;,
+                 &quot;Saturday&quot;, &quot;Sunday&quot;]
+                 
+    months_list = [&quot;January&quot;, &quot;February&quot;, &quot;March&quot;, &quot;April&quot;,
+                   &quot;May&quot;, &quot;June&quot;, &quot;July&quot;, &quot;August&quot;, &quot;September&quot;,
+                   &quot;October&quot;, &quot;November&quot;, &quot;December&quot;]
+    
+    weekend = get_weekend(day_names)
+    season_start_months = get_season_start_months(months_list)
+    print_summary(weekend, season_start_months)
+
+def get_weekend(days_list):
+    days_list = days_list[-2:]
+    
+    return days_list
+
+def get_season_start_months(months_list):
+    months_list = months_list[2::3]
+    return months_list
+
+def print_summary(weekend, season_starts):
+    print(&quot;Weekend:&quot;, weekend)
+    print(&quot;Season start months:&quot;, season_starts)
+
+main()
+
+&quot;&quot;&quot;
+Lab 6 Ex 3
+Date Written: 7 May, 2019
+Author: Peter Cory
+
+&quot;&quot;&quot;
+
+def main():
+    names_list = [&#39;Adriana&#39;, &#39;Ann&#39;, &quot;Gerald&quot;, &#39;Angela&#39;, &#39;Jing&#39;, &#39;Damir&#39;, &#39;Gerald&#39;,]
+    sorted_names_list = get_sorted_list(names_list, &#39;d&#39;)
+    print(&quot;Original list of names:&quot;, names_list, &quot;\n&quot;)
+    print(&quot;Descending list of names:&quot;, sorted_names_list, &quot;\n&quot;)
+    remove_name_from_list(sorted_names_list, &#39;Andrew&#39;)
+    print(&quot;Andrew removed:&quot;, sorted_names_list, &quot;\n&quot;)
+    remove_name_from_list(sorted_names_list, &#39;Gerald&#39;)
+    print(&quot;Gerald removed:&quot;, sorted_names_list, &quot;\n&quot;)
+    insert_name_into_list(sorted_names_list, 3, &#39;Mark&#39;)
+    print(&quot;Mark inserted:&quot;, sorted_names_list, &quot;\n&quot;)
+ 
+    scores_list = [60, 37, 100, 92, 9, 46, 39, 1, 35, 72]
+    sorted_scores_list = get_sorted_list(scores_list, &#39;a&#39;)
+    print(&quot;Sorted scores:&quot;, sorted_scores_list)
+    
+def get_sorted_list(the_list, order):
+    new_list = list(the_list)
+    if order == &quot;d&quot;:
+        new_list.sort()
+        new_list.reverse()
+        return new_list
+    elif order ==&quot;a&quot;:
+        new_list.sort()
+        return new_list
+
+def remove_name_from_list(the_list, name_to_be_removed):
+    while name_to_be_removed in the_list:
+        position = the_list.index(name_to_be_removed)
+        the_list.pop(position)
+    return the_list
+
+def insert_name_into_list(the_list, index, name):
+    the_list.insert(index,name)
+    return the_list
+    
+main()
+
+&quot;&quot;&quot;
+Author: Peter Cory
+Date-written: 7 May, 2019
+Lab 6 Exercise 6.4
+Rounds a list of numbers to whole numbers.
+&quot;&quot;&quot;
+
+def main():
+    numbers = [9.5, 10.5, 7.1, 2.75, 4.5, 8.2, 38.19]
+    print(&quot;Original list:&quot;, numbers)
+    round_to_whole_numbers(numbers)
+    print(&quot;List is now:  &quot;, numbers)
+
+def round_to_whole_numbers(numbers_list):
+    for i in range(0,len(numbers_list)):
+        numbers_list[i] = int(round(numbers_list[i],0))
+
+main()</code></pre>
+<pre class="python"><code>&quot;&quot;&quot;
+Lab 7 Exercise 1
+Author: Peter Cory
+Date Written: 14 May 2019
+&quot;&quot;&quot;
+
+def main():
+    temperatures_list = get_temperatures_list(&quot;celsius.txt&quot;)
+    temperature_statistics_tuple = get_temperatures_statistics(temperatures_list)
+    display_temperature_statistics(temperature_statistics_tuple)
+
+def get_temperatures_list(filename):
+    input_file = open(filename,&quot;r&quot;)
+    contents = input_file.read()
+    input_file.close()
+    temperature_list = contents.split()
+    for i in range(len(temperature_list)):
+        temperature_list[i] = int(temperature_list[i])
+    return temperature_list
+    
+
+def get_temperatures_statistics(temperatures_list):
+    minimum_temperature = min(temperatures_list)
+    maximum_temperature = max(temperatures_list)
+    average_temperature = round(sum(temperatures_list)/len(temperatures_list))
+    return minimum_temperature, average_temperature, maximum_temperature
+
+def display_temperature_statistics(statistics_tuple):
+    degree_sign = &quot;°&quot;
+    print(&quot;Lowest: &quot;, statistics_tuple[0],degree_sign,&quot;C&quot;, &quot;\n&quot;, &quot;Average: &quot;, statistics_tuple[1],degree_sign,&quot;C&quot;, &quot;\n&quot;, &quot;Highest: &quot;, statistics_tuple[2],degree_sign,&quot;C&quot;,sep=&quot;&quot;)
+        
+main()
+
+&quot;&quot;&quot;
+Lab 7 Ex 2
+Author: Peter Cory
+Date Written: 14 May, 2019
+This program creates a file of palindromes.
+&quot;&quot;&quot;
+
+def main():
+    words_list = get_words_list(&quot;words.txt&quot;)
+    create_file_of_palindromes(words_list, &quot;palindromes.txt&quot;)
+
+def get_words_list(filename):
+    input_file = open(filename,&quot;r&quot;)
+    contents = input_file.read()
+    input_file.close()
+    words_list = contents.split()
+    return words_list
+
+def create_file_of_palindromes(words_list, output_filename):
+    output_file = open(output_filename,&quot;w&quot;)
+    for word in words_list:
+        if word == word[::-1]:
+            output_file.write(word+&quot;\n&quot;)
+    output_file.close()
+
+main()
+
+&quot;&quot;&quot;
+Lab 7 Exercise 3
+Author:
+Date Written: May 2019
+&quot;&quot;&quot;
+
+def main():
+    names_tuple = (&quot;Adriana&quot;, &quot;Ann&quot;, &quot;Angela&quot;, &quot;Damir&quot;,
+                   &quot;Jing&quot;, &quot;Cameron&quot;, &quot;Mark&quot;, &quot;Eric&quot;, &quot;Raveen&quot;)
+    sorted_tuple = sort_tuple(names_tuple)
+    print(&quot;Teachers:&quot;, sorted_tuple)
+
+def sort_tuple(names_tuple):
+    names_list = list(names_tuple)
+    names_list.sort()
+    names_tuple = tuple(names_list)
+    return names_tuple
+
+main()</code></pre>
+<pre class="python"><code>&quot;&quot;&quot;
+Lab 8 Ex 1
+Author: Peter Cory
+Date: 21 May, 2019
+This program translates words into radio telephone language.
+&quot;&quot;&quot;
+def main():
+    radio_telephone_alphabet = (&#39;Alpha&#39;, &#39;Bravo&#39;, &#39;Charlie&#39;, &#39;Delta&#39;, &#39;Echo&#39;,
+                                &#39;Foxtrot&#39;, &#39;Golf&#39;, &#39;Hotel&#39;, &#39;India&#39;, &#39;Juliett&#39;,
+                                &#39;Kilo&#39;, &#39;Lima&#39;, &#39;Mike&#39;, &#39;November&#39;, &#39;Oscar&#39;,
+                                &#39;Papa&#39;, &#39;Quebec&#39;, &#39;Romeo&#39;, &#39;Sierra&#39;, &#39;Tango&#39;,
+                                &#39;Uniform&#39;, &#39;Victor&#39;, &#39;Whiskey&#39;, &#39;X-ray&#39;,
+                                &#39;Yankee&#39;, &#39;Zulu&#39;)
+    radio_telephone_dictionary = create_radio_telephone_dictionary(radio_telephone_alphabet)
+    
+    word = get_word_from_user()
+    display_translation(word, radio_telephone_dictionary)
+
+def create_radio_telephone_dictionary(radio_telephone_alphabet):
+    dictionary = {}
+ 
+    for word in radio_telephone_alphabet:
+        dictionary[word[0]] = word
+        
+        
+    return dictionary
+    
+
+def get_word_from_user():
+    word = input(&quot;Enter the word to be translated: &quot;)
+    return word
+
+def display_translation(word, radio_telephone_dictionary):
+    for letter in word:
+        letter = letter.upper()
+        print(radio_telephone_dictionary[letter], end=&quot; &quot;)
+main()
+
+&quot;&quot;&quot;
+Lab 8 Ex 2
+Author: Peter Cory
+Date: 21 May, 2019
+This program reads in a file of aeroplane manufacturers and
+produces a dictionary of aeroplane manufacturers, the key being the
+initial letter of the manufacturer.  The program then
+prints out a list of the aeroplane manufacturers grouped together by the
+initial letter.
+&quot;&quot;&quot;
+
+def main():
+    aeroplanes_list = get_aeroplane_manufacturers_list(&quot;Aeroplanes.txt&quot;)
+    aeroplanes_dictionary = create_aeroplanes_dictionary(aeroplanes_list)
+    display_aeroplane_manufacturers(aeroplanes_dictionary)
+
+def get_aeroplane_manufacturers_list(filename):
+    input_file = open(filename,&quot;r&quot;)
+    contents = input_file.read()
+    contents = contents.split(&quot;\n&quot;)
+    contents.sort()
+    contents_list = list(contents)
+
+    return contents_list
+
+def create_aeroplanes_dictionary(aeroplane_manufacturers_list):
+    dictionary = {}
+    manufacturers = []
+    count = 0
+    for word in aeroplane_manufacturers_list:
+        if word[0] in dictionary:
+            dictionary[word[0]] += &quot;, &quot;+aeroplane_manufacturers_list[count]
+        else:
+            dictionary[word[0]] = aeroplane_manufacturers_list[count]
+        count = count + 1
+          
+            
+
+    return dictionary
+
+def display_aeroplane_manufacturers(aeroplanes_dictionary):
+    
+    for letter in aeroplanes_dictionary:
+        manufacturers = aeroplanes_dictionary[letter]
+        print(letter,&quot;: &quot;, manufacturers, sep = &quot;&quot;)
+
+main()
+    
+    
+&quot;&quot;&quot;
+for word in aeroplane_manufacturers_list:
+        if word[0] not in letter_list:
+            letter_list += [word[0]]
+    for letter in letter_list:
+        if string.startswith(letter):
+            
+        if letter == aeroplane_manufacturers_list[0]:
+            
+        if letter not in dictionary:
+            dictionary[letter] = aeroplane_manufacturers_list[letter_list.index(letter)],2
+
+key = aeroplane_manufacturers_list[aeroplane_manufacturers_list.index(i)]
+        value = aeroplane_manufacturers_list[i]
+        
+    for i in aeroplane_manufacturers_list:
+        if key in dictionary.keys():
+            dictionary[value].append(value)
+        else:
+            dictionary[value] = value
+            dictionary[key] = key
+
+&quot;&quot;&quot;
+&quot;&quot;&quot;
+    alphabetical_list = []
+    for i in contents_list:
+        letter_list = []
+        if i[0] == contents_list[i[0]]:
+            letter_list = letter_list + i
+    alphabetical_list = alphabetical_list + letter_list
+    &quot;&quot;&quot;
+
+&quot;&quot;&quot;
+Lab 8 Ex 3
+Author: Peter Cory
+Date: 21 May, 2019
+This program produces a report on the length of words
+&quot;&quot;&quot;
+
+def main():
+    words_list = get_list_of_words(&quot;words.txt&quot;)
+    counts_dict = create_word_lengths_dictionary(words_list)
+    produce_word_lengths_report(counts_dict)
+
+def get_list_of_words(filename):
+    words_list = open(filename,&quot;r&quot;)
+    contents = words_list.read()
+    contents = contents.split()
+    words_list.close()
+    return contents
+
+def create_word_lengths_dictionary(words_list):
+    lengths_dict = {}
+    for word in words_list:
+        length = len(word)
+        if length in lengths_dict:
+            lengths_dict[length] += 1
+        else:
+            lengths_dict[length] = 1
+            
+    return lengths_dict
+
+def produce_word_lengths_report(word_lengths_dict):
+    title = &quot;Word Lengths Report&quot;
+    print(title)
+    print(&quot;=&quot;*len(title))
+    keys_list = list(word_lengths_dict.keys())
+    keys_list.sort()
+    for length in keys_list:
+        count = word_lengths_dict[length]
+        print(length,&quot;letter words:&quot;,count) 
+    
+main()</code></pre>
+<pre class="python"><code>&quot;&quot;&quot;
+Draws a Give Way sign and a set of traffic lights.
+Date-written: 28 May, 2019.
+Author: Peter Cory
+&quot;&quot;&quot;
+
+from tkinter import *
+
+def main():
+    window = Tk()  
+    window.title(&quot;Road Signs&quot;)  
+    window.config(background = &#39;white&#39;)   
+    window.geometry(&quot;425x450+10+20&quot;) 
+
+    a_canvas = Canvas(window) 
+    a_canvas.config(background = &quot;white&quot;)   
+    a_canvas.pack(fill = BOTH, expand = True)
+    draw_grid(a_canvas)
+    draw_in_canvas(a_canvas) 
+    window.mainloop()
+
+def draw_grid(a_canvas):
+    # Draws the gridlines 50 pixels apart
+    for row in range(50, 551, 50):
+            a_canvas.create_line(-1, row, 451, row, fill = &quot;lightblue&quot;)
+    for column in range(50, 451, 50):
+            a_canvas.create_line(column, -1, column, 451, fill = &quot;lightblue&quot;)
+
+def draw_in_canvas(a_canvas):
+    light_vertex1 = 25,50
+    light_vertex2 = 125,300
+
+    a_canvas.create_rectangle(62.5,200,87.5,437.5,outline = &quot;black&quot;,fill = &quot;grey&quot;)
+    a_canvas.create_rectangle(262.5,200,287.5,437.5,outline = &quot;black&quot;,fill = &quot;grey&quot;)
+    a_canvas.create_rectangle(light_vertex1,light_vertex2,outline = &quot;black&quot;,fill = &quot;black&quot;)
+    a_canvas.create_oval(50,75,100,125,fill = &quot;red&quot;)
+    a_canvas.create_oval(50,150,100,200,fill = &quot;orange&quot;)
+    a_canvas.create_oval(50,225,100,275,fill = &quot;green&quot;)
+    a_canvas.create_polygon(150,50,400,50,275,250,fill = &quot;red&quot;)
+    a_canvas.create_polygon(200,75,350,75,275,200,fill = &quot;white&quot;)
+    a_canvas.create_text(275,100,text = &quot;GIVE&quot;,fill = &quot;black&quot;, font = (&quot;Monaco&quot;,22,&quot;bold&quot;))
+    a_canvas.create_text(275,137.5,text = &quot;WAY&quot;,fill = &quot;black&quot;, font = (&quot;Monaco&quot;,22,&quot;bold&quot;))
+    
+    
+    # You complete this function
+    # The gridlines are 50 pixels apart
+      
+main()
+    
+&quot;&quot;&quot;
+Lab9Ex2
+Draws a pattern in the Canvas window
+Date Written: 28 May, 2019.
+Author: Peter Cory
+&quot;&quot;&quot;
+
+from tkinter import * 
+
+        
+def main(): 
+    window = Tk()  
+    window.title(&quot;Green and White Pattern&quot;)  
+    window.config(background = &#39;white&#39;)   
+    window.geometry(&quot;500x350+10+20&quot;) 
+
+    canvas = Canvas(window) 
+    canvas.config(background = &quot;white&quot;)   
+    canvas.pack(fill = BOTH, expand = True)
+    draw_grid(canvas)
+    draw_pattern_in_canvas(canvas) 
+    window.mainloop()
+    
+def draw_grid(canvas):
+    for row in range(50, 350, 50):
+        canvas.create_line(-1, row, 501, row, fill = &quot;lightblue&quot;)
+    for column in range(50, 500, 50):
+        canvas.create_line(column, -1, column, 351, fill = &quot;lightblue&quot;)
+
+    
+def draw_pattern_in_canvas(canvas): 
+    grid_size = 50
+    y = 0
+    for row in range(0,7):
+        x = 0
+        draw_square = row % 2 == 0
+        for column in range(0,10):
+            if draw_square:
+                canvas.create_rectangle(x,y,x+grid_size,y+grid_size,fill = &quot;green&quot;,outline = &quot;black&quot;,width = 3)
+            else:
+                canvas.create_oval(x,y,x+grid_size,y+grid_size,outline = &quot;black&quot;,width = 3)
+                canvas.create_line(x+grid_size/2,y,x+grid_size/2,y+grid_size,fill = &quot;black&quot;,width = 3)
+                canvas.create_line(x,y+grid_size/2,x+grid_size,y+grid_size/2,fill = &quot;black&quot;,width = 3)
+            x = x + grid_size
+            draw_square = not draw_square
+        y = y + grid_size
+    # You complete this function
+ 
+main()</code></pre>
+<pre class="python"><code>#Question 1
+
+def get_funny_average(numbers):
+    kept_numbers = []
+    for i in range(len(numbers)):
+        if numbers[i] &gt; 0:
+            kept_numbers += [numbers[i]]
+    kept_numbers.sort()
+    if kept_numbers != []:
+        kept_numbers.pop(0)
+        kept_numbers.pop(0)
+    if len(kept_numbers) != 0:
+        average = round(sum(kept_numbers)/len(kept_numbers),1)
+    else:
+        return 0.0
+            
+    return average
+
+#Question 2
+
+def get_memory_score(random_numbers):
+    memory = []
+    score = 0
+    count = 0
+    for i in range(len(random_numbers)):
+    
+        if random_numbers[i] not in memory:
+            memory += [random_numbers[i]]
+            count += 1
+            if count &gt; 5:
+                memory.pop(0)
+        else:
+            score += 1
+        
+    return score
+  
+#Question 3
+
+def get_most_recent(numbers, numbers_to_test):
+    numbers.reverse()
+    numbers_to_test.reverse()
+    for i in range(len(numbers)):
+        if numbers[i] in numbers_to_test:
+            return numbers[i]
+    return -1
+
+#Question 4
+
+def is_a_valid_code(code_string):
+    count1=0
+    count=0
+    code_letters=[&quot;S&quot;,&quot;B&quot;,&quot;N&quot;,&quot;T&quot;,&quot;P&quot;]
+    min_for_each_letter=[1,3,4,0,3]
+    max_for_each_letter=[7,9,6,7,5]
+
+    if code_string == []:
+        return False
+    code_string = code_string.strip()
+    if len(code_string) &lt;= 1:
+        return False
+    if code_string[0] not in code_letters:
+        return False
+    
+    for index in code_letters:
+        if(code_string[0]==index):
+            x=code_letters.index(index)
+    min_number = min_for_each_letter[x]
+    max_number = max_for_each_letter[x]
+    list1=[]
+    for index in range(min_number,max_number+1):
+        list1.append(index)
+    for index in range(1,len(code_string)):
+        if(code_string[index]==&quot; &quot;):
+            count1=count1+1
+            continue
+        else:
+            for j in list1:
+                if((code_string[index])==str(j)):
+                    count=count+1
+    if(count+count1==len(code_string)-1):
+        return True
+    else:
+        return False
+
+#Question 5
+
+def get_longest_e_word(word_list):
+    longest=&quot;&quot;
+    length=0
+    for word in word_list:
+        if &#39;e&#39; in word.lower() and len(word)&gt;5:
+            if len(word)&gt;= length:
+                length = len(word)
+                longest = word
+
+    return longest
+
+#Question 6
+
+def remove_triplets(a_list):
+    first_triple = int(0)
+    second_triple = int(1)
+    third_triple = int(2)
+    while third_triple &lt; len(a_list):
+        if a_list[first_triple] == a_list[second_triple] and a_list[second_triple] == a_list[third_triple]:
+            a_list.pop(first_triple)
+            a_list.pop(first_triple)
+            a_list.pop(first_triple)
+        else:
+            first_triple += 1
+            second_triple += 1
+            third_triple += 1
+
+#Question 7
+
+def get_dice_score(list_of_dice): 
+    score = 0
+    count = 0
+    start = 1
+    all_data=[0]*6
+    for i in list_of_dice:
+        all_data[i-1]=all_data[i-1]+1
+    score=0
+    while all_data[0]!=0:
+        subtotal=0
+        for i in range(len(all_data)):
+            if all_data[i]==0:
+                break
+            else:
+                subtotal=subtotal+(i+1)
+            all_data[i]=all_data[i]-1
+        score=score+subtotal
+    return score</code></pre>
+<pre class="python"><code>#Question 1
+
+def draw_rows(histogram_dict):
+    dict_list = list(histogram_dict.keys())
+    dict_list.sort()
+    for key in dict_list:
+        value = histogram_dict[key]
+        if key &gt;= 1:
+            print(key,&quot;: &quot;,value*key,sep = &quot;&quot;)
+
+#Question 2
+
+def get_text_valuation(letter_worth_dict, text):
+    text_list = list(text)
+    score = 0
+    for word in text_list:
+        word = word.lower()
+        for letter in word:
+            if letter.isalpha():
+                if letter in letter_worth_dict:
+                    score = score + letter_worth_dict[letter]
+                else:
+                    score += 1
+    return score
+
+#Question 3
+
+def get_word_len_dict(text):
+    lengths_dict = {}
+    text = text.strip()
+    words_list = text.split()
+    words_list.sort()
+    unique_list = []
+    for word in words_list:
+        if word not in unique_list:
+            unique_list += [word]
+    for word in unique_list:
+        length = len(word)
+        if length in lengths_dict:
+            lengths_dict[length] += [word]
+        else:
+            lengths_dict[length] = [word]
+            
+    return lengths_dict
+
+#Question 4
+
+def get_triples_dict(text):
+    triplets = {}
+    string = &#39;&#39;
+    for word in text:
+        if word.isalpha():
+            string += word.lower()
+        if len(string) == 3:
+            triplets[string] = triplets.get(string,0)+1
+            string = string[1:]
+    new_triplets = {}
+    for word in triplets:
+        if triplets[word]&gt;1:
+            new_triplets[word] = triplets[word]
+    return new_triplets
+
+#Question 5
+
+def remove_short_synonyms(synonyms_dict):
+    for i in synonyms_dict:
+        new_synonyms=[]
+        for j in synonyms_dict[i]:
+            if len(j)&gt;=8:
+                new_synonyms.append(j)
+        synonyms_dict[i]=sorted(new_synonyms)
+    return synonyms_dict
+
+#Question 6
+
+def contains_keys_and_values(dict1, dict2):
+    if len(dict1)&lt;1 and len(dict2)&lt;1:
+        return True
+    for key in dict2:
+        if key in dict1:
+            for value in dict2[key]:
+                if value in dict1[key]:
+                    return False
+                else:
+                    return True
+
+#Question 7
+
+def get_previous_words_dict(text):
+    text_list = text.split()
+    d = {}
+    uniqueWords = []
+    for w in text_list:
+        if w not in uniqueWords:
+            uniqueWords.append(w)
+    text_list = [&#39;&#39;] + text_list
+    for w in uniqueWords:
+        pw = []
+        for i in range(len(text_list)):
+            if w == text_list[i]:
+                pw.append(text_list[i-1])
+        d[w] = sorted(pw)
+    keys = d.keys()
+    keys = sorted(keys)
+    d1 = d
+    d = {}
+    for key in keys:
+        d[key] = d1[key]
+    return d</code></pre>
+</div>
+<div id="computer-science-130-introduction-to-software-fundamentals"
+class="section level3">
+<h3>Computer Science 130: Introduction to Software Fundamentals</h3>
+<pre class="python"><code>import math
+
+#------------------------- Question 1 -------------------------#
+
+user_input = int(input(&quot;Enter an integer value x: &quot;))
+value = 4*user_input - 2
+print(&quot;The value is&quot;,value)
+
+print()
+
+#------------------------- Question 2 -------------------------#
+
+user_input = float(input(&quot;Side length? &quot;))
+area = user_input**2
+print(&quot;Square area = {:.2f}&quot;.format(area))
+
+print()
+
+#------------------------- Question 3 -------------------------#
+
+radius = 5.5
+perimeter = 2 * radius * math.pi 
+area = radius * radius * math.pi
+print(&quot;The area is {:.2f}&quot;.format(area))
+print(&quot;The perimeter is {:.2f}&quot;.format(perimeter))
+
+print()
+
+#------------------------- Question 4 -------------------------#
+
+user_input = input(&quot;Enter three-digit integer: &quot;)
+print(&quot;Digits in&quot;,user_input,&quot;are&quot;,user_input[0]+&quot;, &quot;+user_input[1]+&quot;, &quot;+user_input[2])
+
+print()
+
+#------------------------- Question 5 -------------------------#
+
+celsius = float(input(&quot;Enter a degree in Celsius: &quot;))
+fahrenheit = 32 + celsius * 9 / 5
+print(&quot;{:.2f}&quot;.format(celsius), &quot;Celsius is,&quot;,&quot;{:.2f}&quot;.format(fahrenheit),&quot;Fahrenheit&quot;)
+
+print()
+
+#------------------------- Question 6 -------------------------#
+
+radius = float(input(&quot;Enter the radius of a cylinder: &quot;))
+length = float(input(&quot;Enter the length of a cylinder: &quot;))
+area = radius * radius * math.pi 
+volume = area * length
+print(&quot;The area is: {:.2f}&quot;.format(area),&quot;and volume is {:.2f}&quot;.format(volume))
+
+print()
+
+#------------------------- Question 7 -------------------------#
+
+side1 = float(input(&quot;Enter side1: &quot;))
+side2 = float(input(&quot;Enter side2: &quot;))
+side3 = float(input(&quot;Enter side3: &quot;))
+
+perimeter = (side1 + side2 + side3)/2
+area = math.sqrt(perimeter*(perimeter-side1)*(perimeter-side2)*(perimeter-side3))
+print(&quot;The area of the triangle is {:.2f}&quot;.format(area))
+
+print()
+
+#------------------------- Question 8 -------------------------#
+
+pounds = float(input(&quot;Enter a number in pounds: &quot;))
+kilograms = pounds*0.454
+print(&quot;{:.2f}&quot;.format(pounds), &quot;is {:.2f}&quot;.format(kilograms),&quot;kilograms&quot;)
+
+print()
+
+#------------------------- Question 9 -------------------------#
+
+name = input(&quot;Your first and last names? &quot;)
+name_list = name.split()
+if len(name_list) &gt;= 2:
+    first_name = name_list[0].capitalize()
+    last_name = name_list[1].upper()
+    print(&quot;Name: &quot;,last_name,&quot;,&quot;, first_name, sep=&quot;&quot;)
+else:
+    print(&quot;ERROR: only one name found&quot;)
+
+print()
+
+#------------------------- Question 10 -------------------------#
+
+weight = float(input(&quot;Enter weight in pounds: &quot;))
+height = float(input(&quot;Enter height in inches: &quot;))
+height_m = height * 0.0254
+weight_kg = weight * 0.45359237
+BMI = weight_kg / height_m**2
+print(&quot;Your BMI is {:.2f}&quot;.format(BMI))</code></pre>
+<pre class="python"><code>numbers = [1,2,3,5,4]
+numbers.sort()
+print(numbers)
+
+#These could be generally useful
+
+def summary(numbers):
+        if len(numbers)&lt;4:
+                return 0
+        else:
+                add_nums = numbers[1]+numbers[-1]
+                return add_nums
+
+def remove_2nd(my_list):
+        if len(my_list)&lt;=0:
+                return[]
+        else:
+                new_list = [my_list[0]]+my_list[2:]
+                return new_list
+
+def eliminate_duplicates(my_list):
+        new_list = []
+        for i in my_list:
+                if i not in new_list:
+                        new_list +=[i]
+        
+        return new_list #modify this
+
+def index_of_smallest(my_list):
+        if len(my_list)&lt;=0:
+                return -1
+        else:
+                smallest_index = my_list.index(min(my_list))
+                return smallest_index
+
+def sum_positive_even(my_list):
+        if len(my_list)&lt;=0:
+                return 0
+        else:
+                new_sum = 0
+                for i in my_list:
+                        if i%2==0:
+                                new_sum += i
+                return new_sum
+
+def calculate_average(my_list):
+        if len(my_list)&lt;=0:
+                return 0
+        else:
+                total = 0
+                for i in my_list:
+                        total += float(i)
+                average = total/len(my_list)
+                return &quot;{0:.2f}&quot;.format(average)
+    
+
+def max_multiple(numbers, m):
+    
+        if len(numbers)&lt;=0:
+                return 0
+        else:
+                list_multiples = [x for x in numbers if x%m==0]
+                if len(list_multiples)&lt;=0:
+                        return 0
+                else:
+                        return max(list_multiples)
+
+        
+
+def larger_than_n(n, numbers):
+    new_list = [x for x in numbers if x&gt;n]
+    return new_list
+def zip_lists(list1, list2):
+        new_list = []
+        for i in range(max(len(list1),len(list2))):
+                if i+1 &lt;= len(list1):
+                        new_list += [list1[i]]
+                if i+1 &lt;= len(list2):
+                        new_list += [list2[i]]
+        return new_list
+
+def main():
+    print(summary([1,2,3,4,5]))
+
+    my_list = [1, 3, 5, 7, 9]
+    print(remove_2nd(my_list))
+    print(my_list)
+
+    print(eliminate_duplicates([5, 3, 1, 2, 3]))
+    
+    print(index_of_smallest([51, 65, 66, 80, 10, 55]))
+    
+    print(sum_positive_even([1,2,3,4,5]))
+    
+    print(calculate_average([0.0, &#39;2.5&#39;, 5]))
+    
+    print(max_multiple([1, 4, 5, 9, 18], 3))
+
+    print(larger_than_n(5, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
+    
+    list1 = [1,2,3]
+    list2 = [4,5,6]
+    print(zip_lists(list1, list2))
+main()
+
+
+def sum_neighbours(num_list):
+        new_list = []
+        for i in range(len(num_list)):
+                if i &lt;1:
+                        sum1 = num_list[i] + num_list[i + 1]
+                        new_list +=[sum1]
+                elif i&gt;=1 and i&lt;=len(num_list)-2:
+                        sum2 = num_list[i] + num_list[i + 1]+num_list[i-1]
+                        new_list +=[sum2]
+                else:
+                        sum3 = num_list[i] + num_list[i - 1]
+                        new_list +=[sum3]
+                        
+print(&quot;answer&quot;,sum_neighbours([10, 20, 30, 40, 50]))</code></pre>
+<pre class="python"><code>import math 
+
+def convert_imperial_to_metric(feet, inches):
+        feet_inch = feet*12
+        inch = inches+feet_inch
+        total_cm = inch*2.54
+        return round(total_cm)
+
+    
+def get_shipping_cost(cost):
+    print(0)  #modify this
+
+
+def get_triangle_perimeter(side1, side2, side3):
+        if isinstance(side1,int) and isinstance(side2,int) and isinstance(side3,int):
+                perimeter = side1+side2+side3
+                print(&quot;{:.2f}&quot;.format(perimeter))
+        else:
+                print( &quot;Input is invalid&quot;)
+
+
+def solve_quadratic(value_a, value_b, value_c):
+        discriminant = value_b**2-4*value_a*value_c
+        if discriminant &lt; 0:
+                print(&quot;The equation has no real roots&quot;)
+        else:
+                root1 = ((-value_b)+math.sqrt(value_b**2-4*value_a*value_c))/2*value_a
+                root2 = ((-value_b)-math.sqrt(value_b**2-4*value_a*value_c))/2*value_a
+
+                if root1 == root2:
+                        print (&quot;The root is {:.2f}&quot;.format(root1))
+                else:
+                        print (&quot;The roots are {:.2f} and {:.2f}&quot;.format(root1,root2))
+
+def main():
+    print(convert_imperial_to_metric(4, 8))
+    get_shipping_cost(1)
+    get_triangle_perimeter(8, 15, 17)
+    solve_quadratic(1, -4, 5)
+    
+main()
+
+def print_ISBN10(string):
+        numbers = string.split()
+        total = 0
+        for i in numbers:
+                total += int(i)
+        check_sum = total%int(numbers[len(numbers)-1])
+        print(str(numbers)+str(check_sum))
+
+print_ISBN10(&quot;013601267&quot;)
+
+# ----------- #
+
+def get_input():
+    x = int(input(&quot;Enter an integer: &quot;))
+    y = int(input(&quot;Enter an integer: &quot;))
+
+    while (x&lt;0 or y&lt;0):
+            print(&quot;You must enter two positive integers!&quot;)
+            x = int(input(&quot;Enter an integer: &quot;))
+            y = int(input(&quot;Enter an integer: &quot;))
+    return x,y
+x,y = get_input()
+
+def print_down_from(x):
+        for i in range(x, -1, -1):
+                print(i, end=&quot; &quot;)
+        print()
+        
+def print_up_to(x):
+        for i in range(x+1):
+                print(i, end= &quot; &quot;)
+        print()
+
+def print_between(x,y):
+        for i in range(x,y+1):
+                print(i, end= &quot; &quot;)
+        for i in range(x,y-1, -1):
+                print(i, end=&quot; &quot;)
+
+        print()
+def check_largest(x,y):
+        if x&gt;y:
+                for i in range(y, x+1):
+                        print(i, end= &quot; &quot;)
+                print()
+        if x&lt;y:
+                for i in range(x, y+1):
+                        print(i, end= &quot; &quot;)
+                print()
+        
+print_between(0,x)
+
+print_between(x,0)
+
+check_largest(x,y)
+
+try_again = int(input(&quot;Do you want to run this again using new integers? Enter 1 for Yes, or 2 for No: &quot;))
+while try_again!=2:
+    x,y = get_input()
+
+    print_between(0,x)
+
+    print_between(x,0)
+
+    check_largest(x,y)
+    try_again = int(input(&quot;Do you want to run this again using new integers? Enter 1 for Yes, or 2 for No: &quot;))      </code></pre>
+<pre class="python"><code>def display_table(dict1,dict2):
+    key_list = []
+    for key in dict1:
+        if key in dict2:
+            key_list += [key]
+    key_list.sort()
+    for thing in key_list:
+        value1 = dict1[thing]
+        value2 = dict2[thing]
+        value1 = str(value1)
+        value2 = str(value2)
+        thing = str(thing)
+        print(&#39;{:&lt;15}&#39;.format(thing),&#39;{:&lt;10}&#39;.format(value1),&#39;{:&lt;10}&#39;.format(value2),sep=&quot; &quot;)
+
+def get_frequency(tuple_list):
+    dict1 = {}
+    for string,value in tuple_list:
+        dict1[string] = dict1.get(string,0)+1
+    return dict1
+
+def get_sum(tuple_list):
+    dict1 = {}
+    for letter,value in tuple_list:
+        dict1[letter] = dict1.get(letter,0)+value
+    return(dict1)
+    
+def process(line):
+    line_list = line.split(&quot;\t&quot;)
+    ip_tuple = (line_list[2],int(line_list[7]))
+    return ip_tuple
+    
+def read_file(filename):
+    contents = open(filename,&quot;r&quot;)
+    lines = contents.readlines()
+    contents.close()
+    new_list = []
+    for line in lines:
+        list1 = process(line)
+        new_list += [list1]
+    return new_list</code></pre>
+<pre class="python"><code>def fiddle_lists(list1,list2):
+    list1 = [1,5]
+    list1.append(10)
+    list2.append(10)
+
+def main():
+    a_list1 = [5,3,2]
+    a_list2 = [4,6,2]
+    fiddle_lists(a_list1,a_list2)
+    print(&quot;1.&quot;,a_list1)
+    print(&quot;2.&quot;,a_list2)
+main()
+
+import math
+class Circle:
+    def __init__(self,name=&quot;unknown&quot;,radius=1):
+        self.__name = name
+        self.__radius = radius
+
+    def get_name(self):
+        return self.__name
+    
+    def set_name(self,name):
+        self.__name = name
+        
+    def get_radius(self):
+        return self.__radius
+    
+    def set_radius(self,radius):
+        if radius &lt; 1:
+            return radius
+        else:
+            self.__radius = radius
+
+    def get_diameter(self,radius):
+        self.__radius*2
+        return self.__radius*2
+
+    def get_perimeter():
+        self.__radius*2*math.pi
+        return self.__radius*2*math.pi
+
+    def get_area():
+        self.__radius**2*math.pi
+        return self.__radius**2*math.pi#math.pi is not function therefore no need for ()
+    
+    def __repr__(self):
+        &#39;Circle(&quot;&#39;+self.__name+&#39;&quot;, &#39;+str(self.__radius)+&quot;)&quot;
+        return&#39;Circle(&quot;&#39;+self.__name+&#39;&quot;, &#39;+str(self.__radius)+&quot;)&quot;
+    
+    def __str__(self):
+        &#39;A circle named &#39;+self.__name+&#39; with a radius of {:.2f}cm&#39;.format(self.__radius)
+        return &#39;A circle named &#39;+self.__name+&#39; with a radius of {:.2f}cm&#39;.format(self.__radius) #&#39;{:.2f}&#39;.format(something) formating
+
+    def __eq__(self,other):
+        if isinstance(other,Circle):
+            if self.__radius == other.__radius:
+                return True
+            else:
+                return False
+        else:
+            return False
+
+    def __add__(self,other):
+        self.__name+other.__name
+        self.__radius+other.__radius
+        &#39;A circle named &#39;+self.__name+other.__name+&#39; with a radius of {:.2f}cm&#39;.format(self.__radius+other.__radius)
+        return &#39;A circle named &#39;+self.__name+other.__name+&#39; with a radius of {:.2f}cm&#39;.format(self.__radius+other.__radius)
+
+c1 = Circle(&quot;c1&quot;, 2.5)
+c2 = Circle(&quot;c2&quot;, 4)
+c3 = c1 + c2
+print(&quot;c1 =&quot;, c1)
+print(&quot;c2 =&quot;, c2)
+print(&quot;c3 =&quot;, c3)
+
+class Table:
+    def __init__(self,data,headers=None,width=5):
+        self.__data = data
+        self.__headers = headers
+        self.__width = width
+    def get_data(self):
+        return data
+    
+    def get_headers(self):
+        return headers
+    
+    def get_width(self):
+        return width
+    
+    def __repr__(self):
+        &quot;headers=&quot;+str(self.__headers)+&quot;, width=&quot;+str(self.__width)+&quot;, data=&quot;+str(self.__data)
+        return &quot;headers=&quot;+str(self.__headers)+&quot;, width=&quot;+str(self.__width)+&quot;, data=&quot;+str(self.__data)
+    
+    def draw_table(self):
+        print(self.__headers)
+        print(&quot;|&quot;,end=&quot;&quot;)
+        for each in self.__headers:
+            print(&quot;{:{}{}}&quot;.format(each,&quot;&lt;&quot;,str(self.__width)),end=&quot;&quot;)
+        print(&quot;|&quot;)
+        print(&quot;|{:-&lt;{}}|&quot;.format(&quot;&quot;,self.__width*len(self.__headers)))
+        
+        for each in self.__data:
+            print(&quot;|&quot;,end=&quot;&quot;)
+            for part in each:
+                print(&quot;{:{}{}}&quot;.format(part,&quot;&lt;&quot;,str(self.__width)),end=&quot;&quot;)
+            print(&quot;|&quot;)
+
+       
+#test 1
+my_table = Table([[&#39;Alice&#39;, 24], [&#39;Bob&#39;, 19]], width=10)
+my_table.draw_table()
+print()
+
+#test 2
+my_table = Table([[&#39;Alice&#39;, 24, 174], [&#39;Bob&#39;, 19, 162], [&#39;Michael&#39;, 18, 173]], width=15)
+my_table.draw_table()
+print()
+
+
+#test 3
+my_table = Table([[&#39;a&#39;, 2, 7], [&#39;b&#39;, 1, 4], [&#39;c&#39;, 8, 3]])
+my_table.draw_table()
+print()
+
+#test 4
+my_table = Table([[123, &#39;abc&#39;], [456, &#39;def&#39;]])
+my_table.draw_table()
+print()
+
+#test 5
+my_table = Table([[&#39;Alice&#39;, 24], [&#39;Bob&#39;, 19]], headers = [&#39;Name&#39;, &#39;age&#39;], width=10)
+my_table.draw_table()
+print()
+
+#test 6
+my_table = Table([[&#39;a&#39;, 2, 7], [&#39;b&#39;, 1, 4], [&#39;c&#39;, 8, 3]],headers = [&#39;char&#39;, &#39;num1&#39;, &#39;num2&#39;])
+my_table.draw_table()</code></pre>
+<p>There wasn’t anything really useful in lab 6 hence the jump</p>
+<pre class="python"><code>try:
+    filename = input(&quot;Enter a filename: &quot;)
+    input_file = open(filename, &quot;r&quot;)
+    words = input_file.readlines()
+    try:
+        line_number = int(input(&quot;Enter a line number: &quot;))
+        if line_number &lt; 1 or line_number &gt; len(words):
+            raise IndexError(line_number)
+    except IndexError:
+        print(&quot;Line&quot;,line_number,&quot;isn&#39;t a legal line number.&quot;)
+    except TypeError:
+        print(&quot;Invalid input!&quot;)
+    except:
+        print(&quot;Invalid input!&quot;)
+    else:
+        print(words[line_number-1])    
+except IOError:
+    print(&quot;The file &#39;&quot;,filename, &quot;&#39; does not exist.&quot;, sep=&quot;&quot;)
+else:
+    input_file.close()
+
+def count_words(filename):
+    try:
+        infile = open(filename, &quot;r&quot;)
+        print(&quot;The number of words in the file is &quot; + str(len(infile.read().split())))
+    except IOError:
+        print(&quot;ERROR: File: &#39;input_unknown.txt&#39; does not exist.&quot;)
+    else:
+        infile.close()
+
+def get_valid_input():
+    number = -1 #invalid
+    while not 1 &lt;= number &lt;= 10:
+        try:
+            user_input = input(&quot;Enter a number between 1 and 10 inclusive: &quot;)
+            number = float(user_input)
+            if number &lt; 1 or number &gt; 10:
+                raise ValueError(number)
+        except ValueError:
+            continue
+        except TypeError:
+            continue
+        else:
+            break
+    return number
+print(&quot;Valid input: {}&quot;.format(get_valid_input()))
+
+
+
+def sum_of_values(numbers):
+    result = 0
+    for elt in numbers:
+        try:
+            result += elt
+        except TypeError:
+            continue
+        except ZeroDivisionError:
+            continue
+            
+    return result
+
+my_list = [4, 2, 6, 7, -2, 100]
+print(sum_of_values(my_list))
+my_list = [4, 2, 6, 7, &#39;a&#39;, 100]
+print(sum_of_values(my_list))
+
+
+def divide_by(numbers, value):
+    result = []
+    for elt in numbers:
+        try:
+            temp = value / elt;
+            result.append(temp)
+        except TypeError:
+            continue
+        except ZeroDivisionError:
+            continue
+            
+    return result
+    
+
+my_list = [4, 0, &#39;f&#39;, 2, 5, 2.5]
+print(divide_by(my_list, 50))
+
+
+def get_month(number):
+    months = [&quot;Jan&quot;,&quot;Feb&quot;,&quot;Mar&quot;,&quot;Apr&quot;,&quot;May&quot;,&quot;Jun&quot;,&quot;Jul&quot;,&quot;Aug&quot;,&quot;Sep&quot;,&quot;Oct&quot;,&quot;Nov&quot;,&quot;Dec&quot;]
+    try:
+        month_code = months[number-1]
+        
+        if number&lt;1:
+            raise IndexError(month_code)
+        print(month_code)
+    except IndexError:
+        print(&quot;ERROR: out of range!&quot;)
+    except TypeError:
+        print(&quot;ERROR: invalid number!&quot;)
+get_month(1)
+get_month(13)
+get_month(&#39;a&#39;)
+get_month(0)
+
+
+def get_room(dictionary,course):
+    try:
+        print(dictionary[course])
+    except KeyError:
+        print(course,&quot;is not available.&quot;)
+    
+get_room({&#39;CS101&#39;:3004, &#39;CS102&#39;:4501, &#39;CS103&#39;:6755,&#39;NT110&#39;:1244, &#39;CM241&#39;:1411}, &#39;CS101&#39;)
+get_room({&#39;CS101&#39;:3004, &#39;CS102&#39;:4501, &#39;CS103&#39;:6755,&#39;NT110&#39;:1244, &#39;CM241&#39;:1411}, &#39;CS999&#39;)
+
+
+def print_list_element(thelist, index): 
+    try:
+        print(thelist[index])
+    except IndexError:
+        print(&quot;The list has no element at index &quot;,index,&quot;.&quot;,sep=&quot;&quot;)
+print_list_element([53, 62, 98, 24, 56], 1)
+print_list_element([53, 62, 98, 24, 56], 5)
+
+
+
+dividend = 1 
+divisor = 1
+
+try:
+    dividend = int(input(&quot;Please enter the dividend: &quot;))
+    result = dividend/divisor
+    
+except ValueError:
+    print(&quot;The dividend has to be a number!&quot;)
+    
+try:
+    divisor = int(input(&quot;Please enter the divisor: &quot;))
+    result = dividend/divisor
+except ValueError:
+    print(&quot;The divisor has to be a number!&quot;)
+    print(&quot;{} / {} = {:.2f}&quot;.format(dividend, divisor, result))
+    
+except ZeroDivisionError:
+    print(&quot;The divisor may not be zero!&quot;)
+    
+else:
+
+    print(&quot;{} / {} = {:.2f}&quot;.format(dividend, divisor, result))
+print(&quot;DONE&quot;)</code></pre>
+<pre class="python"><code>def update_my_list(my_list, values):
+    new_list = my_list+values # Alternative [y for x in [my_list,values] for y in x]
+    print(new_list)
+
+
+list1 = [1, 2]
+update_my_list(list1, [3,4,5])
+print(list1)
+
+list1 = [1,2,3]
+update_my_list(list1, [])
+print(list1)
+print()
+
+def tuple_append(tuple1,number):
+    tuple_list = list(tuple1)
+    new_tuple = tuple(tuple_list[:2]+[number])
+    return new_tuple
+
+
+tuple1 = tuple_append((1,2,3), 4)
+print(tuple1)
+
+tuple1 = tuple_append((&#39;1&#39;, &#39;b&#39;, &#39;2&#39;, &#39;d&#39;), 4)
+print(tuple1)
+print()
+
+def print_values(dict1):
+    keys_list = list(dict1.keys())
+    keys_list.sort()
+    for key in keys_list:
+        value = dict1.get(key)
+        print (value)
+    
+    
+print_values({&#39;b&#39;:36, &#39;a&#39;:12, &#39;c&#39;:24})
+print_values({97:&#39;a&#39;, 65:&#39;A&#39;, 43:&#39;+&#39;, 48:&#39;0&#39;})
+print()
+
+def print_border(word):
+    border = &quot;*&quot;*len(word)+&quot;*&quot;*4
+    print(border)
+    print(&quot;* &quot;+word+&quot; *&quot;)
+    print(border)
+
+print_border(&quot;boop&quot;)
+print()
+
+
+def remove_letters(word1, word2):
+    result = list(word2)
+    for c in word1:
+        if c in result:
+            result.pop(word2.index(c))
+    return &#39;&#39;.join(result)
+
+print(remove_letters(&#39;hello&#39;, &#39;world&#39;))
+print(remove_letters(&#39;world&#39;, &#39;hello&#39;))
+print(remove_letters(&#39;constructionism&#39;, &#39;circles&#39;))
+print()
+
+def adjacent(nums):
+    result = False
+    for i in range(len(nums)-1):
+        if nums[i] == nums[i+1]:
+            result = True
+        else:
+            continue
+    return result
+        
+        
+print(adjacent([1, 2, 1, 2]))
+print(adjacent([1, 2, 2, 1]))
+print()
+
+def moving_average(numbers, n):
+    data = []
+    count = 0
+    for i in range(0, len(numbers)-(n-1)):
+        average = sum(numbers[i:n+count])/n
+        data.append(average)
+        count+=1
+    return data
+
+data = moving_average([4, 8, 3, 4, 1, 0, 8, 5, 8, 9, 3, 2, 4, 7, 0], 5)
+print(data)</code></pre>
+<pre class="python"><code>#Question 1
+&quot;&quot;&quot;f(n) = 22&quot;&quot;&quot;
+
+#Question 2
+&quot;&quot;&quot;f(n) = 3n+ 4&quot;&quot;&quot;
+
+#Question 3
+&quot;&quot;&quot;f(n) = 34&quot;&quot;&quot;
+
+#Question 4
+&quot;&quot;&quot;f(n) = 1&quot;&quot;&quot;
+
+#Question 5
+&quot;&quot;&quot;f(n) = 3*log(n) + 4&quot;&quot;&quot;
+
+#Question 6
+def rate(number):
+    
+    i = number
+    count =0
+    while i &gt; 0:
+        i -= 1
+        count+=1
+    print(&quot;Number of operations:&quot;,count)
+
+#Question 7
+def rate(number):
+    i = 0
+    total = 0
+    c = 0
+    while i &lt; 20:
+        total += i
+        i +=2
+        c+=1
+    print(&quot;Number of operations:&quot;,c)
+    return total
+
+#Question 8
+def rate(n):
+    total = 0
+    i = 1
+    c = 0
+    while i &lt; n:
+        total += i
+        c+=1
+        i = i * 2
+    print(&quot;Number of operations:&quot;,c)
+    return total
+
+#Question 9
+def rate(n):
+    total = 0
+    i = 1
+    c=0
+    while i &lt; n:
+        total += i
+        c+=1
+        i = i * 2
+    print(&quot;Number of operations:&quot;,c)
+    return total
+
+#Question 10
+def rate(number):
+    i = 1
+    total = 0
+    c = 0
+    while i &lt; number:
+        j = 0
+        while j &lt; number:
+            total = i * j + total
+            c+=1
+            j += 1
+        i *= 2
+    print(&quot;Number of operations:&quot;,c)
+
+#Question 11
+def rate(n):
+    total = 0
+    i = 0
+    c=4
+    while i &lt; n:
+        total += i
+        i = i + 2
+        c+=3
+    print(&quot;Number of operations:&quot;,c)
+    return total
+
+#Question 12
+def rate(n):
+    total = 0
+    i = 1
+    c=4
+    while i &lt; n:
+        total += i
+        i = i * 2
+        c+=3
+    print(&quot;Number of operations:&quot;,c)
+    return total
+
+#Question 13
+def rate(n):
+    total = 0
+    i = 0
+    c = 3
+    while i &lt; n:
+        j = 0
+        c+=2
+        while j &lt; n:
+            total = i * j + total
+            j = j + 2
+            c+=3
+        i = i + 1
+        c+=2
+    c+=1
+    print(&quot;Number of operations:&quot;,c)
+    return total
+
+#Question 14
+def rate(n):
+    total = 0
+    i = n
+    c = 4
+    while i &gt; 1:
+        total += i
+        i = i / 2
+        c+=3
+    print(&quot;Number of operations:&quot;,c)
+    return total
+
+#Question 15
+&quot;&quot;&quot;f(n) = 4 + 4log(n)  + log(n)*(3n)&quot;&quot;&quot;
+
+
+#Question 16
+def rate(n):
+    total = 0
+    i = 1
+    c = 3
+    while i &lt; n:
+        j = 0
+        c+=2
+        while j &lt; n:
+            total = i * j + total
+            j = j + 1
+            c+=3
+        i = i * 2
+        c+=2
+    c+=1
+    print(&quot;Number of operations:&quot;,c)
+    return total</code></pre>
+<pre class="python"><code>def fact(n):
+  if n &lt;= 0:
+    return 1
+  return n * fact(n-1)
+
+print(fact(6))
+
+
+def factor(n):
+    if n &lt;= 0:
+        return 1
+    out = 1
+    for i in range(n):
+        out = out*(n-i)
+    return out
+
+print(factor(6))
+    
+
+
+def count_down(n):
+    if n == 0:
+        print(&quot;Go!&quot;)
+    else:
+        print(n)
+        count_down(n-1)
+
+def sum_up_to(n):
+    if n&lt;=0:
+        return 0
+    else:
+        return n+sum_up_to(n-1)
+
+print(sum_up_to(5))
+
+
+def copy_string(s):
+  if len(s)&lt;=0:
+    return&#39;&#39;
+  s = list(&#39;&#39;.join(s))
+  return str(s.pop(0))+copy_string(s)
+
+s = &#39;hello&#39;     
+print(copy_string(s))
+
+s = &#39;This is a test&#39;
+print(copy_string(s))</code></pre>
+<pre class="python"><code>def count_odd(s):
+    if len(s)&lt;=0:
+      return 0
+    elif s[0]%2 == 0:
+        return 0 + count_odd(s[1:])
+    else:
+        return 1+count_odd(s[1:])
+
+
+
+print(&#39;%s : %d&#39; % ([2, 3, 5, 6], count_odd([2, 3, 5, 6])))
+
+
+def get_first_capital(s):
+    if len(s)&lt;=0:
+      return None
+    elif s[0].isupper():
+        return s[0] 
+    else:
+        return get_first_capital(s[1:])
+
+
+print(get_first_capital(&#39;helLo&#39;))
+s = &#39;great&#39;     
+print(get_first_capital(s))
+
+
+def freq_of(letter, text):
+    if len(text)&lt;=0:
+        return 0
+    elif text[0]==letter:
+        return 1 + freq_of(letter,text[1:])
+    else:
+        return 0+ freq_of(letter,text[1:])
+
+text = &#39;welcome&#39;
+letter = &#39;e&#39;
+result = freq_of(letter, text)
+print(f&#39;{text} : {result} {letter}&#39;)
+
+
+
+def sum_up_to(n,s):
+    if n==s:
+        return s
+    else:
+        return s+sum_up_to(n,s+1)
+
+
+print(&#39;%d : %d&#39; % (5, sum_up_to(5, 2)))
+print(&#39;%d : %d&#39; % (8, sum_up_to(8, 4)))</code></pre>
+<pre class="python"><code>class Stack:
+    def __init__(self):
+        self.stack = []
+
+    def is_empty(self):
+        if len(self.stack)==0:
+            return True
+        else:
+            return False
+
+    def push(self, item):
+        self.stack.append(item)
+
+    def pop(self):
+        return self.stack.pop()
+    
+    def peek(self):
+        return self.stack[-1]
+        
+    def size(self):
+        return len(self.stack)
+    
+    def multi_pop(self, n):
+        if len(self.stack)&gt;=n:
+            for i in range(n):
+                self.stack.pop()
+            return True
+        else:
+            return False
+
+    def __str__(self):
+        return str(self.stack)
+
+def top_of_stack(stack):
+    try:
+        return stack.peek()
+    except:
+        return None
+def bottom_of_stack(stack):
+    if stack.size()&gt;1:
+        while stack.size()&gt;1:
+            stack.pop()
+        else:
+            return stack.peek()
+
+def countdown_stack(number):
+    stack = Stack()
+    for i in range(number,0,-1):
+        stack.push(i)
+    return stack
+
+def balanced_brackets(string):
+    open_stack = Stack()
+    bracket_dict = {&quot;(&quot;:&quot;)&quot;,&quot;&lt;&quot;:&quot;&gt;&quot;,&quot;{&quot;:&quot;}&quot;,&quot;[&quot;:&quot;]&quot;}
+    the_list = [x for x in string]
+    try:
+        for i in the_list:
+            if i in bracket_dict.keys():
+                open_stack.push(i)
+            elif i in bracket_dict.values():
+                if bracket_dict[open_stack.pop()] == i:
+                    continue
+                else:
+                    return False
+            else:
+                continue
+        if open_stack.is_empty():
+            return True
+        else:
+            return False
+    except:
+        return False
+
+
+
+print(balanced_brackets(&#39;(&lt;x&gt;)(())()&#39;))#Ture
+print()
+print(balanced_brackets(&#39;x(y)z&#39;))#True
+print()
+print(balanced_brackets(&#39;x&lt;y)(&gt;z&#39;))#False
+print()
+print(balanced_brackets(&#39;xyz&#39;))#True
+print()
+print(balanced_brackets(&#39;a&lt;(bcd)ef)(g)&gt;&#39;))#False
+
+print()
+print(balanced_brackets(&#39;(((((((xyz))))))&#39;))
+
+
+
+print()
+
+
+def evaluate_postfix(text):
+    s = Stack()
+    the_list = [x for x in text]
+    operator_list = [&#39;+&#39;,&#39;-&#39;,&#39;*&#39;,&#39;/&#39;,&#39;^&#39;]
+    answer = 0
+    for each in the_list:
+        print(&quot;each is currently&quot;,each)
+        if each.isdigit():
+            s.push(each)
+        elif each in operator_list:
+            answer = compute(s.pop(),s.pop(),each)
+            s.push(answer)
+    return answer
+            
+
+
+def compute(number1, number2, operator):
+    number1 = int(number1)
+    number2 = int(number2)
+    print(&quot;number 1 is&quot;,number1,&quot;number 2 is&quot;,number2)
+    if operator == &quot;+&quot;:
+        return (number2 + number1)
+    elif operator == &quot;-&quot;:
+        return (number2 - number1)
+    elif operator == &quot;*&quot;:
+        return (number2 * number1)
+    elif operator == &quot;/&quot;:
+        return (number2 // number1)
+    elif operator == &quot;^&quot;:
+        return (number2 ** number1)
+print(evaluate_postfix([&#39;7&#39;, &#39;2&#39;, &#39;9&#39;, &#39;8&#39;, &#39;-&#39;, &#39;*&#39;, &#39;3&#39;, &#39;/&#39;, &#39;+&#39;]),&quot;Should be 7&quot;)
+print()
+print(evaluate_postfix([&#39;5&#39;, &#39;2&#39;, &#39;/&#39;]),&quot;Should be 2&quot;)
+print()
+print(evaluate_postfix([&#39;2&#39;, &#39;10&#39;, &#39;^&#39;]),&quot;Should be 1024&quot;)
+print()
+print(evaluate_postfix([&#39;2&#39;, &#39;4&#39;, &#39;3&#39;, &#39;*&#39;, &#39;^&#39;]),&quot;Should be 4096&quot;)
+print()
+print(evaluate_postfix([&#39;10&#39;, &#39;4&#39;, &#39;2&#39;, &#39;-&#39;, &#39;5&#39;, &#39;*&#39;, &#39;+&#39;, &#39;3&#39;, &#39;-&#39;]), &quot;Should be 17&quot;)
+print()
+
+
+def get_postfix_expression(string):
+    s = Stack()
+    the_list = string.split()
+    operator_list = [&#39;^&#39;,&#39;/&#39;,&#39;*&#39;,&#39;+&#39;,&#39;-&#39;]
+    bracket_dict = {&quot;(&quot;:&quot;)&quot;,&quot;&lt;&quot;:&quot;&gt;&quot;,&quot;{&quot;:&quot;}&quot;,&quot;[&quot;:&quot;]&quot;}
+    answer = &#39;&#39;
+    for each in the_list:
+        if each.isdigit():
+            answer = answer + each + &quot; &quot;
+        else:
+            if each in bracket_dict.keys():
+                s.push(each)
+            if each in bracket_dict.values():
+                while s.peek() not in bracket_dict.keys():
+                    answer = answer + s.pop() + &quot; &quot;
+                    if s.peek()in bracket_dict.keys():
+                        s.pop()
+                        break
+            if each in operator_list:
+                while not s.is_empty() and s.peek()not in bracket_dict.keys() and operator_list.index(each) &gt;= operator_list.index(s.peek()):
+                    answer += s.pop() + &quot; &quot;
+                    if not s.is_empty() and s.peek()in bracket_dict.keys():
+                        break
+                s.push(each)
+    while s.size()&gt;0:
+        answer = answer + s.pop() + &quot; &quot;
+
+    return answer
+print(get_postfix_expression(&#39;2 * 3 + 4&#39;))
+print(get_postfix_expression(&#39;3 + 4 * 7&#39;)) #347*+ 
+print(get_postfix_expression(&#39;2 * ( 6 + 3 )&#39;)) #263+*</code></pre>
+<pre class="python"><code>class Stack:
+    def __init__(self):
+        self.stack = []
+
+    def is_empty(self):
+        if len(self.stack)==0:
+            return True
+        else:
+            return False
+
+    def push(self, item):
+        self.stack.append(item)
+
+    def pop(self):
+        return self.stack.pop()
+    
+    def peek(self):
+        return self.stack[-1]
+        
+    def size(self):
+        return len(self.stack)
+    
+    def multi_pop(self, n):
+        if len(self.stack)&gt;=n:
+            for i in range(n):
+                self.stack.pop()
+            return True
+        else:
+            return False
+
+    def __str__(self):
+        return str(self.stack)
+    
+class Queue:
+    def __init__(self):
+        self.items = []
+    def is_empty(self):
+        return self.items == []
+    def enqueue(self, item):
+        return self.items.insert(0,item)
+    def dequeue(self):
+        return self.items.pop()
+    def size(self):
+        return len(self.items)
+    def peek(self):
+        return self.items[-1]
+    def __str__(self):
+        return str(self.items)
+
+
+def countdown_queue(number):
+    queue = Queue()
+    for i in range(number):
+        queue.enqueue(i+1)
+    return queue
+q = countdown_queue(3)
+print(q.dequeue())
+print(q.dequeue())
+print(q.dequeue())
+print(q.is_empty())
+print()
+q = countdown_queue(5)
+print(q.dequeue())
+print(q.dequeue())
+print(q.dequeue())
+print(q.dequeue())
+print(q.dequeue())
+print(q.is_empty())
+print()
+print(&quot;question 3&quot;)
+print()
+
+def peek_back(s):
+    temp = []
+    if s.is_empty():
+        return None
+    else:
+        for i in range(s.size()):
+            temp.append(s.dequeue())
+        for i in temp:
+            s.enqueue(i)
+    
+    return temp[-1]
+    
+    
+q = Queue()
+q.enqueue(1)
+q.enqueue(2)
+q.enqueue(3)
+print(q)
+x = peek_back(q)
+print(x)
+while not q.is_empty():
+    print(q.dequeue())
+print()
+print(&quot;question 4&quot;)
+
+def reverse_queue(queue):
+    s = Stack()
+    if queue.size()&lt;=1:
+        return queue
+    else:
+        for i in range(queue.size()):
+            s.push(queue.dequeue())
+    for i in range(s.size()):
+        queue.enqueue(s.pop())
+    return queue
+q1 = Queue()
+q1.enqueue(1)
+q1.enqueue(2)
+q1.enqueue(3)
+
+reverse_queue(q1)
+
+while not q1.is_empty():
+    print(q1.dequeue())
+print()
+q1 = Queue()
+q1.enqueue(1)
+
+reverse_queue(q1)
+
+while not q1.is_empty():
+    print(q1.dequeue())
+print()
+print(&quot;question 5&quot;)
+def mirror_queue(q):
+    s = Stack()
+    temp = []
+    for i in range(q.size()):
+        temp.append(q.dequeue())
+    for i in temp:
+        s.push(i)
+        q.enqueue(i)
+    for i in range(s.size()):
+        q.enqueue(s.pop())
+
+q1 = Queue()
+q1.enqueue(1)
+q1.enqueue(2)
+q1.enqueue(3)
+
+mirror_queue(q1)
+
+while not q1.is_empty():
+    print(q1.dequeue())
+
+s1 = Stack()
+s2 = Stack()
+print(s1.is_empty()==s2.is_empty())
+print()
+print(&quot;question 6&quot;)
+
+def is_palindrome(word):
+    q=Queue()
+    s=Stack()
+    truth = True
+    for letter in word:
+        s.push(letter)
+        q.enqueue(letter)
+    
+    for letter in range(q.size()):
+        
+        if s.pop() == q.dequeue():
+            truth = True
+        else:
+            return False
+    return truth
+
+print(is_palindrome(&quot;abcdef&quot;))
+print(is_palindrome(&quot;nonon&quot;))</code></pre>
+<pre class="python"><code>class PythonListList:
+    def __init__(self):
+        self.items = []
+    def is_empty(self):
+        return self.items == []
+    def size(self):
+        return len(self.items)
+    def add(self, item):
+        return self.items.append(item)
+    def search(self, item):
+        return item in self.items
+    def remove(self, item):
+        return self.items.remove(item)
+    def __str__(self):
+        return str(self.items)
+print(&quot;Question 1&quot;)
+values = PythonListList()
+values.add(&#39;hello&#39;)
+values.add(&#39;world&#39;)
+print(values.size())
+print(values.is_empty())
+print(values.search(&#39;world&#39;))
+values.remove(&#39;hello&#39;)
+print(values.size())
+print()
+
+class Node:
+    def __init__(self, init_data):
+        self.data = init_data
+        self.next = None
+    def get_data(self):
+        return self.data
+    def get_next(self):
+        return self.next
+    def set_data(self, new_data):
+        self.data = new_data
+    def set_next(self, new_next):
+        self.next = new_next
+    def __str__(self):
+        return str(self.data)
+
+print(&quot;Question 2&quot;)
+n = Node(&#39;hello&#39;)
+print(n.get_data())
+print(n.get_next())
+print()
+x = Node(&#39;hello&#39;)
+y = Node(&#39;world&#39;)
+x.set_next(y)
+print(x.get_data())
+print(x.get_next().get_data())
+print()
+print(&quot;Question 3&quot;)
+
+def create_node_chain():
+    node1 = Node(&quot;three&quot;)
+    node2 = Node(&quot;linked&quot;)
+    node3 = Node(&quot;nodes&quot;)
+    first = node1
+    node1.set_next(node2)
+    node2.set_next(node3)
+    return first
+
+head = create_node_chain()
+print(head.get_data())
+print(head.get_next().get_data())
+print(head.get_next().get_next().get_data())
+print(head.get_next().get_next().get_next())
+print()
+
+print(&quot;Question 4&quot;)
+
+def print_node_chain(first_node):
+    while first_node.get_next()!=None:
+        print(first_node)
+        first_node = first_node.get_next()
+    print(first_node)
+
+x = Node(&#39;hello&#39;)
+print_node_chain(x)
+print()
+x = Node(&#39;hello&#39;)
+y = Node(&#39;world&#39;)
+z = Node(&#39;goodbye&#39;)
+x.set_next(y)
+y.set_next(z)
+print_node_chain(x)
+print()
+print(&quot;Question 5&quot;)
+
+def print_using_iterator(listThing):
+    iterable = iter(listThing)
+    print(next(iterable))
+    try:
+        while iterable != None:
+            print(next(iterable))
+    except StopIteration:
+        print(&#39;&#39;)
+
+        
+
+print_using_iterator([1, 2, 3, 4, 5])
+print()
+print_using_iterator(&#39;hello&#39;)
+print()
+print(&quot;Question 6&quot;)
+
+def remove_extras(pyList,item):
+    count = 0
+    while pyList.search(item):
+        count += 1
+        pyList.remove(item)
+    if count &gt;0:
+        return count -1
+    else:
+        return None
+values = PythonListList()
+values.add(&#39;eggs&#39;)
+values.add(&#39;butter&#39;)
+values.add(&#39;eggs&#39;)
+values.add(&#39;milk&#39;)
+values.add(&#39;eggs&#39;)
+
+x = remove_extras(values, &#39;eggs&#39;)
+print(x)
+print()
+values = PythonListList()
+values.add(&#39;butter&#39;)
+values.add(&#39;milk&#39;)
+
+x = remove_extras(values, &#39;eggs&#39;)
+print(x)
+print()
+values = PythonListList()
+values.add(&#39;eggs&#39;)
+values.add(&#39;milk&#39;)
+
+x = remove_extras(values, &#39;eggs&#39;)
+print(x)
+print()
+print(&quot;Question 7&quot;)
+
+
+def find_node(pyNode,thing):
+    count = 0
+    while pyNode.get_next()!= None:
+        if pyNode.get_data() == thing:
+            return count
+        else:
+            count += 1
+        pyNode=pyNode.get_next()
+    if pyNode.get_data()==thing:
+        return count
+    else:
+        return -1
+
+
+
+value1 = Node(&#39;date&#39;)
+value2 = Node(&#39;banana&#39;)
+value3 = Node(&#39;cherry&#39;)
+value4 = Node(&#39;apple&#39;)
+value5 = Node(&#39;elderberry&#39;)
+value1.set_next(value2)
+value2.set_next(value3)
+value3.set_next(value4)
+value4.set_next(value5)
+
+print(find_node(value1, &#39;apple&#39;))
+
+print()
+value1 = Node(&#39;apple&#39;)
+value2 = Node(&#39;banana&#39;)
+value3 = Node(&#39;cherry&#39;)
+value4 = Node(&#39;date&#39;)
+value5 = Node(&#39;elderberry&#39;)
+value6 = Node(&#39;mango&#39;)
+value1.set_next(value2)
+value2.set_next(value3)
+value3.set_next(value4)
+value4.set_next(value5)
+value5.set_next(value6)
+
+print(find_node(value1, &#39;fig&#39;))
+print()
+
+print(&quot;Question 8&quot;)
+
+def create_node_chain(list1):
+    head = None
+    current = head
+    if len(list1) == 0:
+        return None
+    else:
+        for i in range(len(list1)-1,-1,-1):
+            new_node = Node(list1[i])
+            new_node.set_next(head)
+            head = new_node
+        return head
+    
+
+values = create_node_chain([&#39;apple&#39;, &#39;banana&#39;, &#39;cherry&#39;, &#39;date&#39;, &#39;elderberry&#39;])
+current = values
+while current != None:
+    print(current)
+    current = current.get_next()
+
+values = create_node_chain([])
+print(values)
+print()
+print(&quot;Question 9&quot;)
+def delete_node(nodes,item):
+    head = nodes
+    found = False
+    current = head
+    previous = None
+    while current != None and not found:
+        #print(&quot;Looking for True or End&quot;)
+        if current.get_data() == item:
+            found = True
+            #print(&quot;Found it&quot;)
+        else:
+            #print(&quot;Continue looking&quot;)
+            previous = current
+            current = current.get_next()
+    else:
+        if current == None and not found:
+            #print(item,&quot;Not in list&quot;)
+            return head
+    if found:
+        #print(&quot;Found and now removing&quot;)
+        if previous == None:
+            print(previous)
+            head = current.get_next()
+            print(head)
+            current.set_next(None)
+        else:
+            #print(&quot;not at start&quot;)
+            previous.set_next(current.get_next())
+            current.set_next(None)
+        #print(&quot;Current head&quot;,head)
+        #print(&quot;Removed&quot;,current)
+        return head
+
+
+value1 = Node(&#39;apple&#39;)
+value2 = Node(&#39;banana&#39;)
+value3 = Node(&#39;cherry&#39;)
+value4 = Node(&#39;date&#39;)
+value5 = Node(&#39;elderberry&#39;)
+value1.set_next(value2)
+value2.set_next(value3)
+value3.set_next(value4)
+value4.set_next(value5)
+value1 = delete_node(value1, &#39;apple&#39;)
+current = value1
+while current != None:
+    print(current)
+    current = current.get_next()
+
+print()
+
+value1 = Node(&#39;apple&#39;)
+value2 = Node(&#39;banana&#39;)
+value3 = Node(&#39;cherry&#39;)
+value4 = Node(&#39;date&#39;)
+value5 = Node(&#39;elderberry&#39;)
+value1.set_next(value2)
+value2.set_next(value3)
+value3.set_next(value4)
+value4.set_next(value5)
+value1 = delete_node(value1, &#39;banana&#39;)
+current = value1
+while current != None:
+    print(current)
+    current = current.get_next()
+    
+print()
+
+value1 = Node(&#39;apple&#39;)
+value2 = Node(&#39;banana&#39;)
+value3 = Node(&#39;cherry&#39;)
+value4 = Node(&#39;date&#39;)
+value5 = Node(&#39;elderberry&#39;)
+value1.set_next(value2)
+value2.set_next(value3)
+value3.set_next(value4)
+value4.set_next(value5)
+value1 = delete_node(value1, &#39;cherry&#39;)
+current = value1
+while current != None:
+    print(current)
+    current = current.get_next()
+print()
+
+value1 = Node(&#39;apple&#39;)
+value2 = Node(&#39;banana&#39;)
+value3 = Node(&#39;cherry&#39;)
+value4 = Node(&#39;date&#39;)
+value5 = Node(&#39;elderberry&#39;)
+value1.set_next(value2)
+value2.set_next(value3)
+value3.set_next(value4)
+value4.set_next(value5)
+value1 = delete_node(value1, &#39;fig&#39;)
+current = value1
+while current != None:
+    print(current)
+    current = current.get_next()
+print()
+
+print(&quot;Question 10&quot;)
+
+def has_loop(head):
+    count = 0
+    current = head
+    temp = &quot;&quot;
+    while current != None:
+        count += 1
+        if current.get_next() == None:
+            print(&quot;Found an end&quot;)
+            return False
+        elif current.get_next() == temp:
+            return True
+        nextNode = current.get_next()
+        current.next = temp
+        current = nextNode
+    return False
+
+
+
+head = Node(1)
+print(has_loop(head))
+print()
+a = Node(1)
+b = Node(2)
+a.set_next(b)
+b.set_next(a)
+print(has_loop(a))</code></pre>
+<pre class="python"><code>class Node:
+
+    def __init__(self, init_data):
+        self.data = init_data
+        self.next = None
+
+    def get_data(self):
+        return self.data
+
+    def get_next(self):
+        return self.next
+
+    def set_data(self, new_data):
+        self.data = new_data
+
+    def set_next(self, new_next):
+        self.next = new_next
+
+    def __str__(self):
+        return str(self.data)
+
+class LinkedList:
+
+    def __init__(self):
+        self.head = None
+        
+
+    def add(self, item):
+        new_node = Node(item)
+        new_node.set_next(self.head)
+        self.head = new_node
+
+    def is_empty(self):
+        if self.head == None:
+            return True
+        else:
+            return False
+    def size(self):
+        current = self.head
+        count = 0
+        while current != None:
+            count += 1
+            current = current.get_next()
+        else:
+            return count
+
+    def search(self,item):
+        found = False
+        current = self.head
+        previous = None
+        while current != None and not found:
+            if current.get_data() == item:
+                found = True
+                return found
+            else:
+                previous = current
+                current = current.get_next()
+        return found
+
+    def remove(self,item):
+    
+        found = False
+        current = self.head
+        previous = None
+        while current != None and not found:
+            #print(&quot;Looking for True or End&quot;)
+            if current.get_data() == item:
+                found = True
+                #print(&quot;Found it&quot;)
+            else:
+                #print(&quot;Continue looking&quot;)
+                previous = current
+                current = current.get_next()
+        else:
+            if current == None and not found:
+                #print(item,&quot;Not in list&quot;)
+                return self.head
+        if found:
+            #print(&quot;Found and now removing&quot;)
+            if previous == None:
+                #print(previous)
+                self.head = current.get_next()
+                #print(self.head)
+                current.set_next(None)
+            else:
+                #print(&quot;not at start&quot;)
+                previous.set_next(current.get_next())
+                current.set_next(None)
+            #print(&quot;Current head&quot;,self.head)
+            #print(&quot;Removed&quot;,current)
+            return self.head
+
+    def remove_from_tail(self):
+        current = self.head
+        previous = None
+        while current.get_next() != None:
+            previous = current
+            current = current.get_next()
+            #print(&quot;not None Current: &quot;,current,&quot;Previous: &quot;, previous)
+        if current.get_next() == None:
+            #print(previous)
+            if previous == None:
+                #print(&quot;FOUND YOU&quot;)
+                self.head = None
+            else:
+                #print(&quot;ISSUES&quot;)
+                previous.set_next(None)
+            #print(&quot;reached end Current: &quot;,current,&quot;Previous: &quot;, previous)
+            return current
+
+    def zip_up(self,other):
+        selfie = self.head
+        themses = other.head
+        self.add(selfie)
+        self.add(themses)
+        selfie = selfie.get_next()
+        themses = themses.get_next()
+        other.remove(themses)
+        return self.head
+
+    def add_sorted(self,item):
+        current = self.head
+        if current is None:
+            self.add(item)
+            return
+        if current.get_data()&gt;item:
+            new_node = Node(item)
+            new_node.set_next(current)
+            self.head = new_node
+            return
+        while current.get_next() != None:
+            if str(current.get_next()) &gt; str(item):
+                break
+            current = current.get_next()
+        new_node = Node(item)
+        new_node.set_next(current.get_next())
+        current.set_next(new_node)
+        return 
+        
+    def reverse(self): 
+        prev = None
+        current = self.head 
+        while current is not None:
+            next = current.next
+            current.next = prev 
+            prev = current 
+            current = next
+        self.head = prev  
+            
+
+    def __str__(self):
+        current = self.head
+        theList = &#39;&#39;
+        while current != None:
+            #print(&quot;Adding&quot;,current)
+            theList += str(current)+&quot;, &quot;
+            current = current.get_next()
+        return &quot;({})&quot;.format(theList[0:len(theList)-2])
+    def __iter__(self):
+        return LinkedListIterator(self.head)
+
+class LinkedListIterator:
+    
+    def __init__(self, head):
+        self.current = head
+
+    def __next__(self):
+        if self.current == None:
+            raise StopIteration
+        temp = self.current
+        self.current = self.current.get_next()
+        return temp
+
+        
+        
+listA = LinkedList()
+listA.add(&#39;3&#39;)
+listA.add(&#39;2&#39;)
+listA.add(&#39;1&#39;)
+print(listA)
+
+listB = LinkedList()
+listB.add(&#39;C&#39;)
+listB.add(&#39;B&#39;)
+listB.add(&#39;A&#39;)
+print(listB)
+
+listA.zip_up(listB)
+
+print(listA)
+print(listB)
+
+
+values = LinkedList()
+values.add(&#39;cherry&#39;)
+values.add(&#39;banana&#39;)
+values.add(&#39;apple&#39;)
+for v in values:
+    print(v)
+print()
+fruit = LinkedList()
+fruit.add_sorted(&#39;banana&#39;)
+fruit.add_sorted(&#39;cherry&#39;)
+fruit.add_sorted(&#39;apple&#39;)
+
+print(fruit)
+
+my_list = LinkedList()
+my_list.add_sorted(&#39;add&#39;)
+my_list.add_sorted(&#39;cat&#39;)
+my_list.add_sorted(&#39;bit&#39;)
+print(my_list)
+
+my_list = LinkedList()
+my_list.add_sorted(5)
+my_list.add_sorted(7)
+my_list.add_sorted(3)
+my_list.add_sorted(2)
+my_list.add_sorted(9)
+my_list.add_sorted(6)
+my_list.add_sorted(1)
+my_list.add_sorted(4)
+my_list.add_sorted(8)
+print(my_list)
+
+my_list = LinkedList()
+my_list.add(&#39;cat&#39;)
+my_list.add(&#39;bit&#39;)
+my_list.add(&#39;ask&#39;)
+print(my_list)
+my_list.reverse()
+print(my_list)
+print()
+
+listA = LinkedList()
+listA.add(&#39;3&#39;)
+listA.add(&#39;2&#39;)
+listA.add(&#39;1&#39;)
+print(listA)
+
+listB = LinkedList()
+listB.add(&#39;C&#39;)
+listB.add(&#39;B&#39;)
+listB.add(&#39;A&#39;)
+print(listB)
+
+listA.zip_up(listB)
+
+print(listA)
+print(listB)</code></pre>
+<pre class="python"><code>def simple_string_hash(key,size):
+    letter_sum = 0
+    for letter in key:
+        letter_sum += ord(letter)
+    return letter_sum%size
+
+def simple_numeric_hash(key,size):
+    key_sqr_str = str(key**2)
+    mid_sqr = int(key_sqr_str[1:len(key_sqr_str)-1])
+    #print(key_sqr_str,mid_sqr)
+    return mid_sqr%size
+
+def hash_linear(key, table):
+    first = key % len(table)
+    probes = 1
+    while table[first] != None:
+        #print(&quot;Not first&quot;, first)
+        first += 1
+        first = first % len(table)
+        probes += 1
+    #table[first] = key
+    return probes
+
+def hash_string_linear(key,table):
+    weighted_sum = 0
+    for num in range(len(key)):
+        weighted_sum += (num+1)*ord(key[num])
+        #print(&quot;weighted_sum&quot;,weighted_sum)
+    #print( key,weighted_sum%len(table),weighted_sum,len(table))
+    first = weighted_sum % len(table)
+    probes = 1
+    while table[first] != None:
+        #print(&quot;Not first&quot;, first)
+        first += 1
+        first = first % len(table)
+        probes += 1
+    table[first] = key
+    
+def hash_double(key, table):
+    first = key % len(table)
+    second = 5-(key%5)
+    probes = 1
+    while table[first] != None:
+        #print(&quot;Not first&quot;, first)
+        first += second
+        first = first % len(table)
+        probes += 1
+    #table[first] = key
+    return probes
+
+def hash_quadratic(key, table):
+    first = key % len(table)
+    table_pos = first
+    print(first)
+    currentAdd = 1
+    probes = 1
+    while table[table_pos] != None:
+        table_pos = first + currentAdd**2
+        table_pos = table_pos % len(table)
+        currentAdd += 1
+        probes += 1
+    #table[table_pos] = key
+    return probes
+
+
+def worst_index_positions(list1):
+    list_copy = list1
+    new_dict = {}
+    max_pos = []
+    for i in range(len(list_copy)):
+        #print(&quot;List length:&quot;,len(list_copy),&quot;Current i:&quot;,i)
+        probes = hash_linear(i,list_copy)
+        if probes in new_dict:
+            new_dict[probes].append(i)
+        else:
+            new_dict[probes]=[i]
+        list_copy = list1
+    #print(new_dict)
+    thing = new_dict[max(new_dict.keys())]
+    return thing</code></pre>
+<pre class="python"><code>class BinaryTree:
+    def __init__(self,data):
+        self.data = data
+        self.left = None
+        self.right = None
+    def insert_left(self,new_data):
+        if self.left == None:
+            self.left = BinaryTree(new_data)
+        else:
+            t = BinaryTree(new_data)
+            t.left = self.left
+            self.left = t
+    def insert_right(self,new_data):
+        if self.right == None:
+            self.right = BinaryTree(new_data)
+        else:
+            t = BinaryTree(new_data)
+            t.right = self.right
+            self.right = t
+    def get_left(self):
+        return self.left
+    def get_right(self):
+        return self.right
+    def set_data(self):
+        self.data = data
+    def get_data(self):
+        return self.data
+    def set_left(self, tree):
+        self.left = tree
+
+    def set_right(self, tree):
+        self.right = tree
+
+
+def create_a_tree(): #question 1
+    tree = BinaryTree(&#39;a&#39;)
+    tree.insert_left(&#39;b&#39;)
+    tree.insert_right(&#39;c&#39;)
+    return tree
+def basic_print(tree): #question 2
+    if tree!= None:
+        print(tree.get_data(),end = &#39; &#39;)
+        basic_print(tree.get_left())
+        basic_print(tree.get_right())
+        
+def create_a_tree2(): #question 3
+    top = BinaryTree(&#39;a&#39;)
+    top.insert_left(&#39;b&#39;)
+    top.insert_right(&#39;c&#39;)
+    next1 = top.get_left()
+    next1.insert_left(&#39;d&#39;)
+    next1.insert_right(&#39;e&#39;)
+    next1_left = next1.get_left()
+    next1_right = next1.get_right()
+    next1_left.insert_right(&#39;f&#39;)
+    next1_right.insert_right(&#39;g&#39;)
+    return top
+
+def convert_tree_to_list(tree): #question 4
+    if tree == None:
+        return None
+    else:
+        return [str(tree.get_data()),convert_tree_to_list(tree.get_left()),convert_tree_to_list(tree.get_right())]
+
+def tree_size(tree): # question 5
+    if tree == None:
+        return 0
+    else:
+        return 1+tree_size(tree.get_left())+tree_size(tree.get_right())
+
+def tree_depth(tree): #question 6
+    if tree == None:
+        return 0
+    else:
+        left_depth = tree_depth(tree.left)
+        right_depth = tree_depth(tree.right)
+        if left_depth&gt;right_depth:
+            return left_depth+1
+        else:
+            return right_depth+1
+
+def mirror(tree_list):#Question 7
+    if tree_list == None:
+        return
+    else:
+        temp = tree_list
+        mirror(tree_list.left)
+        mirror(tree_list.right)
+        tree_list.left,tree_list.right=tree_list.right,tree_list.left
+
+def print_tree(t, level): #question 7 helper
+    print(&#39; &#39; * (level*4) + str(t.get_data())) 
+    if t.get_left() != None:
+        print(&#39;(l)&#39;, end = &#39;&#39;)
+        print_tree(t.get_left(), level + 1) 
+    if t.get_right() != None: 
+        print(&#39;(r)&#39;, end = &#39;&#39;)
+        print_tree(t.get_right(), level + 1)
+
+
+def create_tree_from_nested_list(nList): #Question 8
+    if not nList:
+        return nList
+    data,left,right = nList
+    tree = BinaryTree(data)
+    tree.set_left(create_tree_from_nested_list(left))
+    tree.set_right(create_tree_from_nested_list(right))
+    return tree
+
+def print_tree(t, level): #question 8 helper
+    print(&#39; &#39; * (level*4) + str(t.get_data())) 
+    if t.get_left() != None:
+        print(&#39;(l)&#39;, end = &#39;&#39;)
+        print_tree(t.get_left(), level + 1) 
+    if t.get_right() != None: 
+        print(&#39;(r)&#39;, end = &#39;&#39;)
+        print_tree(t.get_right(), level + 1)</code></pre>
+<pre class="python"><code>class BinaryTree:
+
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+    def insert_left(self, new_data):
+        if self.left == None:
+            self.left = BinaryTree(new_data)
+        else:
+            t = BinaryTree(new_data)
+            t.left = self.left
+            self.left = t
+
+    def insert_right(self, new_data):
+        if self.right == None:
+            self.right = BinaryTree(new_data)
+        else:
+            t = BinaryTree(new_data)
+            t.right = self.right
+            self.right = t
+
+    def get_left(self):
+        return self.left
+
+    def get_right(self):
+        return self.right
+
+    def set_left(self, tree):
+        self.left = tree
+
+    def set_right(self, tree):
+        self.right = tree
+
+    def set_data(self, data):
+        self.data = data
+
+    def get_data(self):
+        return self.data
+
+    def search(self,find_data):
+        if self.data == find_data:
+            #print(&quot;Found&quot;,find_data)
+            return self
+        elif find_data&lt;self.data and self.left != None:
+            return self.left.search(find_data)
+        elif find_data &gt; self.data and self.right != None:
+            return self.right.search(find_data)
+        else:
+            return None
+    def insert(self,new_data):#question 3
+        if new_data == self.data:
+            return
+        elif new_data &lt; self.data:
+            if self.left == None:
+                self.left = BinaryTree(new_data)
+            else:
+                self.left.insert(new_data)
+        else:
+            if self.right == None:
+                self.right = BinaryTree(new_data)
+            else:
+                self.right.insert(new_data)
+
+    def create_string(self, spaces):
+        info = &#39; &#39; * spaces + str(self.data)
+        if self.left != None:
+            info += &#39;\n(l)&#39; + self.left.create_string(spaces+4)
+        if not self.right == None:
+            info += &#39;\n(r)&#39; + self.right.create_string(spaces+4)
+        return info      
+
+    def __str__(self):
+        representation = self.create_string(0)
+        return representation  
+
+
+def maximum(tree): #question 1
+    if tree.get_right() == None:
+        return tree.get_data()
+    else:
+        return maximum(tree.get_right())
+
+def minimum(tree): #question 1
+    if tree.get_left() == None:
+        return tree.get_data()
+    else:
+        return minimum(tree.get_left())
+
+def print_insert_position(tree,number): #question 2
+    if number &lt; tree.get_data():
+        if tree.get_left() == None:
+            print(&quot;To the left of&quot;,tree.get_data())
+        else:
+            return print_insert_position(tree.get_left(),number)
+    elif number &gt; tree.get_data():
+        if tree.get_right() == None:
+            print(&quot;To the right of&quot;,tree.get_data())
+        else:
+            return print_insert_position(tree.get_right(),number)
+    elif number == tree.get_data():
+        print(&quot;Duplicate&quot;)
+
+def getsubtree(tree, data):
+    if(tree.data == data):
+        return tree
+    if tree.data &lt; data:
+        return getsubtree(tree.right, data)
+    else:
+        return getsubtree(tree.left, data)
+
+def getSumOfNodes(tree):
+    if tree == None:
+        return 0
+    return (tree.data + getSumOfNodes(tree.left) + getSumOfNodes(tree.right))
+
+def sum_beneath(tree, data):
+    if tree == None:
+        return 0
+    if tree.search(data) == None:
+        return 0
+    subtree = getsubtree(tree, data)
+    sumOfNodes = getSumOfNodes(subtree)
+    return sumOfNodes - subtree.data
+
+def create_new_bst(lists):
+    #print(lists[0])
+    bst = BinaryTree(lists[0])
+    keys = lists[1:len(lists)+1]
+    for k in keys:
+        bst.insert(k)
+    return bst
+
+def traverse(tree,operation): #question 5
+    result = 0
+    result = []
+    if tree != None:
+        if operation == &quot;post&quot;:
+            result.extend(traverse(tree.get_left(),operation))
+            result.extend(traverse(tree.get_right(),operation))
+            result.append(tree.get_data())
+        elif operation == &quot;in&quot;:
+            result.extend(traverse(tree.get_left(),operation))
+            result.append(tree.get_data())
+            result.extend(traverse(tree.get_right(),operation))
+        elif operation == &quot;pre&quot;:
+            result.append(tree.get_data())
+            result.extend(traverse(tree.get_left(),operation))
+            result.extend(traverse(tree.get_right(),operation))
+    return result</code></pre>
+<pre class="python"><code>class PriorityQueueList:
+    def __init__(self):
+        self.queue = []
+
+    def insert(self,data):
+        self.queue.append(data)
+
+    def del_min(self):
+        if len(self.queue)==0:
+            return -1
+        else:
+            min = 0
+            for i in range(len(self.queue)):
+                if self.queue[i] &lt;self.queue[min]:
+                    min = i
+            item = self.queue[min]
+            del self.queue[min]
+            return item
+
+def heap_sort(lists):
+    priority = PriorityQueueList()
+    for i in lists:
+        priority.insert(i)
+    result = []
+    for i in range(len(lists)):
+        result.append(priority.del_min())
+    return result
+
+def is_binary_heap(lists):
+    for i in range(1,len(lists)):
+        p = lists[i]
+        left_child = 2*i
+        right_child = 2*i+1
+        if left_child &lt; len(lists):
+            if lists[left_child] &lt; p:
+                return False
+        if right_child &lt; len(lists):
+            if lists[right_child] &lt; p:
+                return False
+    return True
+
+def perc_up(index,values):
+    count = 0
+    element = values[index]
+    while values[index//2] &gt; element:
+        values[index] = values[index//2]
+        index = index//2
+        count += 1
+    values[index] = element
+    return count
+
+def perc_down(values):
+    swaps = 0
+    parent_index = 1
+    size = len(values)
+
+    while(True):
+
+        idx = parent_index
+        left_index = 2 * parent_index
+        right_index = 2 * parent_index + 1
+  
+        if left_index &lt; size and values[idx] &gt; values[left_index]:
+            idx = left_index
+    
+        if right_index &lt; size and values[idx] &gt; values[right_index]:
+            idx = right_index
+
+        if parent_index != idx:
+            temp = values[idx]
+            values[idx] = values[parent_index]
+            values[parent_index] = temp
+            swaps += 1
+            parent_index = idx
+
+        else:
+            return swaps
+
+        
+def min_child(index,lists):
+    if index &gt;= len(lists):
+        return None
+    if 2*index &lt; len(lists) and (2*index+1) &lt; len(lists):
+        if lists[2*index]&lt;lists[2*index+1]:
+            return index*2
+        else:
+            return index*2 +1
+    elif 2*index &lt; len(lists):
+        return 2*index
+    elif (2*index+1) &lt; len(lists):
+        return 2*index+1
+    else:
+        return None</code></pre>
+<p>Lab 20 was a revision lab so most of the code is already in previous
+labs.</p>
+</div>
+<div id="computer-science-210-computer-organisation"
+class="section level3">
+<h3>Computer Science 210: Computer Organisation</h3>
+<p>Nothing really useful for 210</p>
+</div>
+<div id="computer-science-215-data-communications-and-security"
+class="section level3">
+<h3>Computer Science 215: Data Communications and Security</h3>
+<pre class="python"><code>import sys
+import string
+
+def hexify(string):
+    hex_str = &quot;0x&quot;+string
+    hex_int = int(hex_str,16)
+    return hex_int
+
+def options():
+    print(&quot;Choose an assigment cipher&quot;)
+    print()
+    print(&quot;1. One-time pad&quot;)
+    print(&quot;2. Block Cipher&quot;)
+    print(&quot;3. Feistel Cipher \n&quot;)
+    print(&quot;0 to exit \n&quot;)
+    choice = input(&quot;Enter your choice: &quot;)
+    operation_choice(choice)
+
+def operation_choice(choice):
+    if choice == &quot;0&quot;:
+        print(&quot;Thanks for using my program :D&quot;)
+    elif choice == &quot;1&quot;:
+        one_time()
+    elif choice == &quot;2&quot;:
+        block_cipher()
+    elif choice == &quot;3&quot;:
+        feistel_cipher()
+    else:
+        print(&quot;Something went wrong please try again&quot;)
+        options()
+
+def one_time():
+    
+    letter_matrix = []
+    print(&quot;Enter lines below:&quot;)
+    test_line = &quot;items were stolen.&quot;
+    for line in sys.stdin:
+        if &#39;\n&#39; == line:#.rstrip() or &#39;Q&#39; == line.rstrip():
+            break
+        letter_matrix.append(line.split())
+
+    xor = []
+    for i in range(len(letter_matrix)):
+        temp = []
+        for j in range(len(letter_matrix[0])-1):
+            if i == len(letter_matrix)-1:
+                temp.append(hexify(letter_matrix[i][j])^hexify(letter_matrix[0][j]))
+            else:
+                temp.append(hexify(letter_matrix[i][j])^hexify(letter_matrix[i+1][j]))
+        xor.append(temp)
+
+    tester = input(&quot;Enter possible phrase: &quot;)
+    line_tester = int(input(&quot;Enter line to test: &quot;))
+    print()
+    while tester != &quot;0&quot;:
+        j = 0
+        test_list = [letter for letter in tester]
+        print(test_list)
+        try:
+            while j &lt; len(xor[0]):
+                for i in range(len(test_list)):
+                    print(chr(ord(test_list[i])^xor[line_tester][i+j]),end=&quot;&quot;)
+                j+=1
+                print(&quot;\n&quot;,&quot;-&quot;*len(xor[0]))
+        except Exception as err:
+            print(&quot;.&quot;)
+            pass
+        print()
+        got_phrase = input(&quot;Got a full phrase yet Y/N? &quot;)
+        print()
+        if got_phrase.rstrip() in [&#39;y&#39;,&quot;Y&quot;]:
+            get_phrase = input(&quot;Well done enter it here: &quot;)
+            get_line = int(input(&quot;Which line is it? &quot;))
+            print()
+            phrase_list = [letter for letter in get_phrase]
+            for i in range(len(letter_matrix[get_line])):
+                print(ord(phrase_list[i])^hexify(letter_matrix[get_line][i]),end=&quot; &quot;)
+            print()
+        else:
+            print(&quot;Keep trying :)&quot;)
+        print(&quot;\n&quot;,&quot;-&quot;*len(letter_matrix[0])*2,&quot;\n&quot;)
+        tester = input(&quot;Enter possible phrase: &quot;)
+        line_tester = int(input(&quot;Enter line to test: &quot;))
+        
+    if tester == &quot;0&quot; or line_tester == &quot;0&quot;:
+        options()
+
+def block_cipher():
+    text1 = input(&quot;Enter text: &quot;)
+    key = input(&quot;Enter key: &quot;)
+    vector = input(&quot;Enter Initialisation Vector or 0 if not known: &quot;).upper()
+    print()
+
+    while text1 != &quot;0&quot;:
+        text_list = text1.split()
+        hex_list = []
+        key_hex = []
+        vector_hex = []
+
+        for i in range(0,len(key),2):
+            key_hex.append(hexify(key[i:i+2]))
+            if vector == &quot;0&quot;:
+                continue
+            else:
+                vector_hex.append(hexify(vector[i:i+2]))
+            
+        for each in text_list:
+            temp = []
+            for i in range(0,len(each),2):
+                temp.append(hexify(each[i:i+2]))
+            hex_list.append(temp)
+
+        typer = input(&quot;Enter type: &quot;).upper()
+        
+        if typer == &quot;ECB&quot;:
+            for each in hex_list:
+                for i in range(len(each)):
+                    print(hex(key_hex[i]^each[i])[2:].upper(),end=&quot;&quot;)
+                print()
+        
+        elif typer == &quot;CBC&quot;:
+            vector = vector_hex
+            encryption = input(&quot;Encrypt or Decrypt E/D: &quot;).upper()
+            if encryption == &quot;E&quot;:
+                for each in hex_list:
+                    temp = []
+                    for i in range(len(each)):
+                        xor1_2 = vector[i]^each[i]
+                        temp.append(xor1_2^key_hex[i])
+                        print(hex(temp[i])[2:].upper(),end = &quot;&quot;)
+                    print()
+                    vector = temp
+            elif encryption == &quot;D&quot;:
+                for each in hex_list:
+                    temp = []
+                    for i in range(len(each)):
+                        xor1_2 = key_hex[i]^each[i]
+                        temp.append(each[i])
+                        print(hex(xor1_2^vector[i])[2:].upper(),end = &quot;&quot;)
+                    print()
+                    vector = temp
+        
+        elif typer == &quot;PCBC&quot;:
+            vector = vector_hex
+            encryption = input(&quot;Encrypt or Decrypt E/D: &quot;).upper()
+            if encryption == &quot;E&quot;:
+                for each in hex_list:
+                    temp = []
+                    for i in range(len(each)):
+                        xor1_2 = vector[i]^each[i]
+                        temp.append((xor1_2^key_hex[i])^each[i])
+                        print(hex(temp[i])[2:].upper(),end = &quot;&quot;)
+                    print()
+                    vector = temp
+            elif encryption == &quot;D&quot;:
+                for each in hex_list:
+                    temp = []
+                    for i in range(len(each)):
+                        xor1_2 = key_hex[i]^each[i]
+                        temp.append((xor1_2^vector[i])^each[i])
+                        print(hex(xor1_2^vector[i])[2:].upper(),end = &quot;&quot;)
+                    print()
+                    vector = temp
+        
+        elif typer == &quot;CFB&quot;:
+            print(&quot;This part has not been finished yet&quot;)
+        
+        else:
+            print(&quot;You killed Kenny! You basterd!&quot;)
+
+        print()
+        text1 = input(&quot;Enter text: &quot;)
+        key = input(&quot;Enter key: &quot;)
+        vector = input(&quot;Enter Initialisation Vector or 0 if not known: &quot;)
+
+def feistel_cipher():
+    print(&quot;This part has not been finished yet&quot;)
+    options()
+
+options()</code></pre>
+<pre class="python"><code>import hashlib
+import random
+import numpy as np
+import math
+import string
+
+
+&quot;&quot;&quot;------------------------------------------------------------------------------------------------------&quot;&quot;&quot;
+
+def options():
+    print(&quot;Choose an assigment cipher&quot;)
+    print()
+    print(&quot;1. AES Encryption&quot;)
+    print(&quot;2. Diffie-Hellman&quot;)
+    print(&quot;3. Hashes \n&quot;)
+    print(&quot;0 to exit \n&quot;)
+    choice = input(&quot;Enter your choice: &quot;)
+    operation_choice(choice)
+
+def operation_choice(choice):
+    if choice == &quot;0&quot;:
+        print(&quot;Thanks for using my program :D&quot;)
+    elif choice == &quot;1&quot;:
+        AES()
+    elif choice == &quot;2&quot;:
+        D_H()
+    elif choice == &quot;3&quot;:
+        hashes()
+    else:
+        print(&quot;Something went wrong please try again&quot;)
+        options()
+
+&quot;&quot;&quot;------------------------------------------------------------------------------------------------------&quot;&quot;&quot;
+
+def hexify(string):
+    hex_str = &quot;&quot;
+    if string[0:2] == &quot;0x&quot;:
+        hex_str = string
+    else:
+        hex_str = &quot;0x&quot;+string
+    hex_int = int(hex_str,16)
+    return hex_int
+
+def splitter(string):
+    row = int(string[0],16)
+    col = int(string[1],16)
+    return (row,col)
+
+def printer(array):
+    to_print = []
+    for each in array:
+        for one in each:
+            to_print.append(&quot;{0:0{1}X}&quot;.format(int(one),2))
+    print(*to_print, sep = &quot;,&quot;)
+
+def print_array(array):
+    to_print = []
+    for each in array:
+        for one in each:
+            to_print.append(one)
+    print(*to_print,sep=&quot;,&quot;)
+
+def intify(string):
+    if string[0:2] in [&quot;0x&quot;,&quot;0X&quot;]:
+        return int(string,16)
+    elif string.isalpha():
+        return int(string,16)
+    else:
+        return int(string)
+    pass
+
+&quot;&quot;&quot;------------------------------------------------------------------------------------------------------&quot;&quot;&quot;
+
+def AES_Start(text, key, blockNum):
+    key0 = np.array([hexify(l) for l in key]).reshape(4,4,order = &#39;C&#39;)
+    block_num = np.array([ord(l) for l in text[0:16]]).reshape(4,4,order = &#39;C&#39;)
+    block_hex = np.array([hex(ord(l)).upper()[2:] for l in text[0:16]]).reshape(4,4,order = &#39;C&#39;)
+    file = open(&quot;s-box.txt&quot;,&#39;r&#39;)
+    s_box = [line.rstrip().split(&#39;,&#39;) for line in file.readlines()]#file.read().rstrip().split(&#39;,&#39;)
+    file.close()
+
+    state_mat = np.zeros((4,4))
+    state_matrix = np.zeros((4,4))
+
+    for i in range(4):
+        for j in range(4):
+            xor = key0[i][j]^block_num[i][j]
+            state_matrix[i][j] = xor
+            co_ords = splitter(&quot;{0:0{1}X}&quot;.format(xor,2))
+            xor = int(s_box[co_ords[0]][co_ords[1]],16)
+            state_mat[i][j] = xor
+
+    print(&quot;Block {} before encryption:&quot;.format(blockNum))
+    print_array(block_hex)
+    print()
+
+    print(&quot;Block {} after XOR with key:&quot;.format(blockNum))
+    printer(state_matrix)
+    print()
+
+    print(&quot;Block {} after Substitution:&quot;.format(blockNum))
+    printer(state_mat)
+    print()
+
+    for i in range(4):
+        state_mat[i] = np.roll(state_mat[i],-i)
+
+    print(&quot;Block {} after Permutation:&quot;.format(blockNum))
+    printer(state_mat)
+    print()
+
+&quot;&quot;&quot;------------------------------------------------------------------------------------------------------&quot;&quot;&quot;
+
+def AES():
+    text = input(&quot;Enter text to encode: &quot;)#&quot;IuJCdIUkMFPfcvpAYyCyCGvpRAQsJRnhKAoDNGiekdIIfwan&quot;
+    key = input(&quot;Enter key for encoding: &quot;).split(&quot;,&quot;)#&quot;FB,98,5F,A3,0A,ED,20,65,D4,A9,F3,6F,3A,B9,23,60&quot;.split(&quot;,&quot;)
+    print()
+
+    for i in range(0,len(text),16):
+        block_text = text[i:i+16]
+        AES_Start(block_text,key,int(i/16))
+
+    options()
+
+def D_H():
+    g = intify(input(&quot;Enter base (g): &quot;))
+    p = intify(input(&quot;Enter prime (p): &quot;))
+    a = intify(input(&quot;Enter key 1 (a): &quot;))
+    b = intify(input(&quot;Enter key 2 (b): &quot;))
+    text = input(&quot;Enter text: &quot;)
+    key = (g**(a*b))%p
+    letters = []
+    for each in text:
+        letters.append(hex(int(each,16)^key).upper()[2:])
+    print(*letters, sep = &quot;&quot;)
+
+    options()
+    
+def hashes():
+    
+    #6 letter words.txt
+    #10 letter words.txt
+
+    print(&quot;Enter auto to get all words of a length with Y Hash value\nEnter find to get all words with the same Hash value as the entered word\nEnter hashcash for MD5 Hashcashing\nEnter 0 to return to options&quot;)
+    print()
+    texter = input(&quot;Enter selection: &quot;).lower()
+    print()
+
+    if texter == &#39;auto&#39;:
+        #6 letter words 93 hash
+        words = open(input(&quot;Word list text file: &quot;),&#39;r&#39;)
+        text = words.read()
+        words.close()
+        text = text.split()
+        hash_value = int(input(&quot;Enter Hash Value: &quot;))
+        
+        for word in text:
+            hash_brown = 0
+            for each in word.lower():
+                hash_brown += ord(each)
+            hash_brown = hash_brown%100
+            if hash_brown == hash_value:
+                print(&quot;One word with {} is {}&quot;.format(hash_brown, word.lower()))
+
+    elif texter == &#39;find&#39;:
+        test = input(&quot;Enter word to test: &quot;).lower()
+        words = open(input(&quot;Word list text file: &quot;),&#39;r&#39;)
+        text = words.read()
+        words.close()
+        text = text.lower().split()
+        hash_test = 0
+        for each in test:
+            hash_test += ord(each)
+        print(hash_test)
+        
+        #35529 total 10 letter words (exhibition)
+        for word in text:
+            hash_brown = 0
+            for each in word.lower():
+                hash_brown += ord(each)
+            hash_brown = hash_brown%100
+            if hash_brown == hash_test%100:
+                print(&quot;One word with {} is {}&quot;.format(hash_brown, word.lower())) 
+
+    elif texter == &quot;hashcash&quot;:
+        string = input(&quot;Enter word to cash: &quot;).rstrip().lower()+&quot;:&quot;
+        bit_len = int(input(&quot;Enter the number of bits: &quot;))//4
+        seed = hashlib.md5()
+        message = bytes(string, &#39;utf-8&#39;)
+        seed.update(message)
+        nonce = 0
+        while True:
+            copy = seed.copy()
+            copy.update(bytes(str(nonce),&#39;utf-8&#39;))
+            trying = copy.hexdigest()
+            if trying[0:bit_len] == &#39;0&#39;*bit_len:
+                print(&quot;MD5 hash value =&quot;,trying)
+                print(&quot;Nonce = {}&quot;.format(nonce))
+                print()
+                break
+            nonce += 1
+    
+    else:
+
+        while texter != &#39;0&#39;:
+            hash_brown = 0
+            for each in texter:
+                hash_brown += ord(each)
+            print(&quot;Word total: &quot;,hash_brown)
+            hash_brown = hash_brown%100
+            print(hash_brown)
+            texter = input(&quot;Enter a word: &quot;).lower()
+    options()
+    
+options()</code></pre>
+<pre class="python"><code>import numpy as np
+import cv2 as cv
+import sys
+from PIL import Image, ImageChops
+
+def binarise(string):
+    binary_list = &quot;&quot;
+    for j in range(0,len(string),2):
+        binary_list += hex_to_bin(string[j:j+2])[-1]
+    return binary_list
+
+def hex_to_bin(string):
+    hex_str = &quot;&quot;
+    if string[0:2] == &quot;0x&quot;:
+        hex_str = string
+    else:
+        hex_str = &quot;0x&quot;+string
+    hex_int = int(hex_str,16)
+    bin_int = bin(hex_int)
+    return bin_int
+
+def steganography(colours):
+    colour_letter = &quot;&quot;
+
+    for each in colours:
+        binaries = &quot;&quot;
+        letter_list = []
+        for one in each:
+            pound = one.index(&quot;#&quot;)+1
+            colour_letter += binarise(one[pound:])
+
+    length = colour_letter[0:32]
+    length = int(length[::-1],2)
+    end = 32+(length*8)
+
+    for i in range(32,end,8):
+        letter = colour_letter[i:i+8]
+        letter = letter[::-1]
+        print(chr(int(letter,2)),end=&quot;&quot;)
+
+def steganalysis(colours, width, height):
+    f = open(&quot;steg-red.txt&quot;,&#39;w&#39;)
+    colour_letter = []
+
+    for each in colours:
+        binaries = []
+        letter_list = []
+        for one in each:
+            pound = one.index(&quot;#&quot;)+1
+            binaries.append(binarise(one[pound:]))
+        colour_letter.append(binaries)
+    binary_list = np.array(colour_letter).reshape(width,height,order=&quot;C&quot;)
+    for i in range(width):
+        for j in range(height):
+            if binary_list[i][j][0] == &#39;1&#39;:
+                f.write(&#39; &#39;)
+            else:
+                f.write(&#39;K&#39;)
+        f.write(&quot;\n&quot;)
+    f.close()
+
+path = input(&quot;Enter image name: &quot;)
+analysis = Image.open(path)
+width, height = analysis.size
+file = open(path+&quot;.txt&quot;,&#39;r&#39;)
+colours = np.array([line.rstrip() for line in file.readlines()]).reshape(width,height,order=&quot;C&quot;)
+file.close
+
+
+#14
+print(&quot;Available operations: Steganography(1), Steganalysis(2), Exit(0)&quot;)
+operation = input(&quot;Enter operation: &quot;)
+
+if operation == &#39;1&#39;:
+    steganography(colours)
+elif operation == &#39;2&#39;:
+    steganalysis(colours, width, height)
+else:
+    pass</code></pre>
+<pre class="python"><code>import hashlib
+
+f = open(&quot;10k words.txt&quot;,&#39;r&#39;)
+words = f.readlines()
+f.close()
+
+user = bytes(input(&quot;Enter username: &quot;)+&quot;:&quot;,&#39;utf-8&#39;)
+
+realm = bytes(input(&quot;Enter realm: &quot;)+&quot;:&quot;,&#39;utf-8&#39;)
+
+method = bytes(input(&quot;Enter method: &quot;)+&quot;:&quot;,&#39;utf-8&#39;)
+
+uri = bytes(input(&quot;Enter uri: &quot;),&#39;utf-8&#39;)
+
+nonce = bytes(&quot;:&quot;+input(&quot;Enter nonce: &quot;)+&quot;:&quot;,&#39;utf-8&#39;)
+
+response = input(&quot;Enter response to test: &quot;)
+
+ha1Seed = hashlib.md5()
+ha1Seed.update(user)
+ha1Seed.update(realm)
+
+ha2Seed = hashlib.md5()
+ha2Seed.update(method)
+ha2Seed.update(uri)
+ha2 = ha2Seed.hexdigest()
+
+for i in range(len(words)):
+    test_response = hashlib.md5()
+    copy = ha1Seed.copy()
+    copy.update(bytes(words[i].strip(), &#39;utf-8&#39;))
+
+    ha1 = copy.hexdigest()
+
+    test_response.update(bytes(ha1, &#39;utf-8&#39;))
+    test_response.update(nonce)
+    test_response.update(bytes(ha2, &#39;utf-8&#39;))
+    trying = test_response.hexdigest()
+    if response == trying:
+        print(words[i].strip())
+        print(trying)</code></pre>
+</div>
+<div id="computer-science-220-algorithms-and-data-structures"
+class="section level3">
+<h3>Computer Science 220: Algorithms and Data Structures</h3>
+<pre class="python"><code>&quot;&quot;&quot;
+Author: Peter Cory
+UPI: pcor591
+
+This Algorithm is designed to extract the specified number of songs with
+the largest running time and sort them in descending order of time and
+ascending alphabetical order by title and then author.
+
+&quot;&quot;&quot;
+#-----------------------------------------------------------------------------------#
+
+&quot;&quot;&quot;
+Import Section
+&quot;&quot;&quot;
+import sys
+
+#------------------------------------------------------------------------------------#
+
+&quot;&quot;&quot;
+Information gathering and manipulation Section
+&quot;&quot;&quot;
+
+start = sys.stdin #take the information in from the command line
+songs = int(start.readline().strip()) #extract the number of songs required 
+breaker = start.readline().strip() #extract the symbol used to split the song info
+
+songs_list = [] #empty list to put the songs into
+
+next_line = start.readline().strip().split(breaker) #read the first line of song info
+while next_line[0] != &quot;&quot;: #check if song title field is empty to indicate end of file
+    next_line[2]=int(next_line[2]) #change song length into a number for later use
+    
+    change= [next_line[2]]+next_line[:2] #used to change the order of the list
+    #so that the list can be ordered in descending order of running time
+    
+    songs_list.append(change) #add current song to the overall list
+    next_line = start.readline().strip().split(breaker)#read in the next line
+
+#sort songs_list in descending order
+songs_list.sort(reverse=True)
+
+#list of top n lengths
+top_songs = [part[0] for part in songs_list[:songs]]
+
+#create list of numerically and alphabetically sorted songs
+sorted_list = [0]*songs
+for each in songs_list[songs::-1]: #iterate through the first n songs in reverse
+    if each[0] in top_songs: #and check if in top_songs
+        top_songs[top_songs.index(each[0])] = each #replace matches with song info
+
+
+#limit list to top n in the case of two or more song lengths the same
+for one in top_songs:
+    print(&quot;{}&amp;{}&amp;{}&quot;.format(one[1], one[2], one[0])) #print out in required format</code></pre>
+<pre class="python"><code>&quot;&quot;&quot;
+Author: Peter Cory
+
+Function takes in an adjacency matrix line by line and constructs a list of edges with
+negative weights, in this way the simplified Bellman_Ford algorithm will find the smallest
+distance which will be the largest negative number
+&quot;&quot;&quot;
+
+import sys
+
+def main():
+    x = 1
+    while True:
+        x = int(sys.stdin.readline())
+        if x == 0:
+            break
+        graph = dict.fromkeys(range(x),[])
+        dists = [float(&quot;Inf&quot;)]*x #create a list with the biggest possible number
+        edgy = [] #list to store the edges and weights of graph
+        dists[0] = 0 #set the first (or source) distance to 0 as it has no distance
+
+        for i in range(x):
+            line = [int(x) for x in sys.stdin.readline().split()]
+            if i == 0:
+                if line == []:
+                    continue
+            else:
+                if i in graph[0] and line == []:
+                    continue
+                
+            for each in line:
+                edgy.append([i,each,-1])
+        &quot;&quot;&quot;
+    The following algorithm runs Vertices - 1 times since the longest path can only be
+    |V|-1 long
+    &quot;&quot;&quot;
+
+        for j in range(1,x):
+            for u,v,w in edgy:
+                if dists[u] != float(&quot;Inf&quot;) and dists[u]+w &lt; dists[v]:
+                    dists[v] = dists[u]+w
+
+        print(abs(min(dists)))
+
+main()</code></pre>
+</div>
+<div
+id="computer-science-225-discrete-structures-in-mathematics-and-computer-science"
+class="section level3">
+<h3>Computer Science 225: Discrete Structures in Mathematics and
+Computer Science</h3>
+<p>Nothing really useful for 225</p>
+</div>
+<div id="computer-science-230-object-oriented-software-development"
+class="section level3">
+<h3>Computer Science 230: Object Oriented Software Development</h3>
+<p>TBD put in link to finished app.</p>
+</div>
+<div id="computer-science-235-software-development-methodologies"
+class="section level3">
+<h3>Computer Science 235: Software Development Methodologies</h3>
+<pre class="python"><code>from flask import Flask, render_template
+
+app = Flask(__name__)
+
+
+@app.route(&quot;/&quot;)
+def hello_world():
+    return render_template(&quot;page.html&quot;)
+
+
+@app.route(&quot;/&lt;name&gt;&quot;)
+def hello_name(name):
+    return f&quot;Hello {name} how are you&quot;
+
+
+if __name__ == &#39;__main__&#39;:
+    app.run(debug=True)</code></pre>
+<pre class="html"><code>&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Flask demo&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;{{url_for(&#39;static&#39;,filename=&#39;./css/style.css&#39;)}}&quot;&gt;
+&lt;/head&gt;
+&lt;h1&gt;This is a new page&lt;/h1&gt;
+&lt;p&gt;Fez&#39;s are cool!&lt;/p&gt;
+&lt;p&gt;{{5*15}}&lt;/p&gt;
+
+&lt;/html&gt;
+</code></pre>
+</div>
+<div id="computer-science-331-large-scale-software-development"
+class="section level3">
+<h3>Computer Science 331: Large-Scale Software Development</h3>
+<p>TBD</p>
+</div>
+<div
+id="computer-science-335-functional-programming-and-distributed-services"
+class="section level3">
+<h3>Computer Science 335: Functional Programming and Distributed
+Services</h3>
+<p>TBD</p>
+</div>
+<div id="computer-science-345-human-computer-interaction"
+class="section level3">
+<h3>Computer Science 345: Human-computer Interaction</h3>
+<p>TBD</p>
+</div>
+<div id="computer-science-369-computational-biology"
+class="section level3">
+<h3>Computer Science 369: Computational Biology</h3>
+<p>TBD</p>
+</div>
+<div id="computer-science-373-computer-graphics-and-image-processing"
+class="section level3">
+<h3>Computer Science 373: Computer Graphics and Image Processing</h3>
+<p>TBD</p>
+</div>
+<div id="computer-science-399-capstone-computer-science"
+class="section level3">
+<h3>Computer Science 399: Capstone: Computer Science</h3>
+<p>TBD</p>
+</div>
+<div id="stats-220" class="section level3">
+<h3>Stats 220</h3>
+<p>Stats 220 has provided me with a lot of useful code, and even
+inspired me to make this whole website using Rmarkdown. The following
+pieces of code are mainly R, but all the pages on my Portfolio website
+have been made using Rmarkdown.</p>
+<p>TBD</p>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
